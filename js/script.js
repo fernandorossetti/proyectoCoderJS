@@ -26,6 +26,7 @@ function plazoFijo() {
         alert('Ingrese valor mayor a $1000.');
     }
 }
+// Finaliza Función Plazo Fijo.
 
 //Función para ejecutar el prestamo.
 function prestamo() {
@@ -81,10 +82,16 @@ function prestamo() {
         alert('Supero el monto máximo, vuelva a ingresar!');
     }
 }
+// Finaliza Función Prestamo.
 
-let opcion = prompt('BIENVENIDO A BANCO JS \nPor favor elije una opción: \n1- Plazo Fijo. \n2 - Prestamos. \n3 - Cambio de Divisas. \nPresioná X para finalizar.');
+// Función Cambio de Divisas.
+function cambioDivisas() {
+    
+}
 
-while (opcion != 'X' && opcion != 'x') {
+let opcion = prompt('BIENVENIDO A BANCO JS \nPor favor elije una opción: \n1- Plazo Fijo. \n2 - Prestamos. \n3 - Cambio de Divisas. \nPresioná X para finalizar.').toLowerCase;
+
+while (opcion != 'X') {
 
     switch (opcion) {
 
