@@ -86,10 +86,76 @@ function prestamo() {
 
 // Función Cambio de Divisas.
 function cambioDivisas() {
-    
+    // Tipos de Operaciónes.
+    let compra = parseFloat();
+    let venta = parseFloat();
+    let montoFinal = parseInt();
+
+    let monedas = prompt('Por favor ingrese el tipo de Moneda con la que desea operar: \n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real. ');
+    let monto = parseInt(prompt('Ingrese el monto $:'));
+    let tipoConversion = prompt('Que moneda desea?. \n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real. ');
+
+    switch (monedas) {
+        case '1':
+            switch (tipoConversion) {
+                case '1':
+                    montoFinal = monto;
+                    break;
+                case '2':
+                    montoFinal = monto / 282;
+                    break;
+                case '3':
+                    montoFinal = monto * 141 / 100;
+                    break;
+                case '4':
+                    montoFinal = monto * 25.30 / 100;
+                    break;
+            }
+            break;
+
+        case '2':
+            compra = 141;
+            venta = 149;
+            switch (tipoConversion) {
+                case '1':
+                    montoFinal = monto * compra;
+                    break;
+                case '2':
+                    montoFinal = monto * venta;
+                    break;
+            }
+            break;
+
+        case '3':
+            compra = 25, 30;
+            venta = 29, 30;
+            switch (tipoConversion) {
+                case '1':
+                    montoFinal = monto * compra;
+                    break;
+                case '2':
+                    montoFinal = monto * venta;
+                    break;
+            }
+            break;
+
+        default:
+            alert('Elegiste una opción inválida');
+            break;
+    }
+
+    if (tipoConversion == '1') {
+        alert('El resultado de la operación es:$ ' + montoFinal.toFixed(2));
+    } else if (tipoConversion == '2') {
+        alert('El resultado de la operación es:$ ' + montoFinal.toFixed(2));
+    } else {
+        alert('Elegiste una opción incorrecta, vuelve a empezar.');
+
+    }
 }
 
-let opcion = prompt('BIENVENIDO A BANCO JS \nPor favor elije una opción: \n1- Plazo Fijo. \n2 - Prestamos. \n3 - Cambio de Divisas. \nPresioná X para finalizar.').toLowerCase;
+
+let opcion = prompt('BIENVENIDO A BANCO JS \nPor favor elije una opción: \n1_ Plazo Fijo. \n2_ Prestamos. \n3_ Cambio de Divisas. \nPresioná X para finalizar.').toUpperCase;
 
 while (opcion != 'X') {
 
@@ -104,14 +170,14 @@ while (opcion != 'X') {
             break;
 
         case '3':
-
+            cambioDivisas();
             break;
 
         default:
             alert('Elegiste una opción inválida');
             break;
     }
-    opcion = prompt('Elegí una opción: \n1- Plazo Fijo. \n2- Prestamos. \n3- Cambio de Divisas. \nPresioná X para finalizar.');
+    opcion = prompt('Elegí una opción: \n1_ Plazo Fijo. \n2_ Prestamos. \n3_ Cambio de Divisas. \nPresioná X para finalizar.');
 
 }
 
