@@ -87,9 +87,13 @@ function prestamo() {
 // Función Cambio de Divisas.
 function cambioDivisas() {
     // Tipos de Operaciónes.
-    let compra = parseFloat();
-    let venta = parseFloat();
     let montoFinal = parseInt();
+    let dolarCompra = 278;
+    let dolarVenta = 282;
+    let euroCompra = 283;
+    let euroVenta = 287;
+    let realCompra = 65;
+    let realVenta = 71;
 
     let monedas = prompt('Por favor ingrese el tipo de Moneda con la que desea operar: \n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real. ');
     let monto = parseInt(prompt('Ingrese el monto $:'));
@@ -102,39 +106,64 @@ function cambioDivisas() {
                     montoFinal = monto;
                     break;
                 case '2':
-                    montoFinal = monto / 282;
+                    montoFinal = monto / dolarVenta;
                     break;
                 case '3':
-                    montoFinal = monto * 141 / 100;
+                    montoFinal = monto / euroVenta;
                     break;
                 case '4':
-                    montoFinal = monto * 25.30 / 100;
+                    montoFinal = monto / realVenta;
                     break;
             }
             break;
 
         case '2':
-            compra = 141;
-            venta = 149;
             switch (tipoConversion) {
                 case '1':
-                    montoFinal = monto * compra;
+                    montoFinal = monto * dolarCompra;
                     break;
                 case '2':
-                    montoFinal = monto * venta;
+                    montoFinal = monto;
+                    break;
+                case '3':
+                    montoFinal = monto * (euroCompra / dolarCompra);
+                    break;
+                case '4':
+                    montoFinal = monto * (realCompra / dolarCompra);
                     break;
             }
             break;
 
         case '3':
-            compra = 25, 30;
-            venta = 29, 30;
             switch (tipoConversion) {
                 case '1':
-                    montoFinal = monto * compra;
+                    montoFinal = monto * euroCompra;
                     break;
                 case '2':
-                    montoFinal = monto * venta;
+                    montoFinal = monto * (euroCompra / dolarVenta);
+                    break;
+                case '3':
+                    montoFinal = monto;
+                    break;
+                case '4':
+                    montoFinal = monto * (euroCompra / realVenta);
+                    break;
+            }
+            break;
+
+        case '4':
+            switch (tipoConversion) {
+                case '1':
+                    montoFinal = monto * realCompra;
+                    break;
+                case '2':
+                    montoFinal = monto * (realCompra / dolarVenta);
+                    break;
+                case '3':
+                    montoFinal = monto * (realCompra / euroVenta);
+                    break;
+                case '4':
+                    montoFinal = monto;
                     break;
             }
             break;
@@ -144,13 +173,22 @@ function cambioDivisas() {
             break;
     }
 
-    if (tipoConversion == '1') {
-        alert('El resultado de la operación es:$ ' + montoFinal.toFixed(2));
-    } else if (tipoConversion == '2') {
-        alert('El resultado de la operación es:$ ' + montoFinal.toFixed(2));
-    } else {
-        alert('Elegiste una opción incorrecta, vuelve a empezar.');
+    switch (tipoConversion) {
+        case '1':
+            alert('El resultado de la operación es:$ ARS' + montoFinal.toFixed(2));
+            break;
 
+        case '2':
+            alert('El resultado de la operación es:$ U$d ' + montoFinal.toFixed(2));
+            break;
+
+        case '3':
+            alert('El resultado de la operación es:€ ' + montoFinal.toFixed(2));
+            break;
+
+        case '4':
+            alert('El resultado de la operación es:R$ ' + montoFinal.toFixed(2));
+            break;
     }
 }
 
