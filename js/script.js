@@ -1,30 +1,70 @@
+// Comenzando las Clases
+class PlazoFijo {
+    constructor(deposito, duracion, id) {
+        this.deposito = parseFloat(deposito);
+        this.duracion = parseInt(duracion);
+        this.id = id;
+    }
+
+    asignarId(array) {
+        this.id = array.length;
+    }
+}
+class Prestamo {
+    constructor(monto, id) {
+        this.monto = parseInt(monto);
+        this.id = id;
+    }
+
+    asignarId(array) {
+        this.id = array.length;
+    }
+}
+// Fin Clase
+
+// Inicio Constructores
+const plazosFijos = [
+
+]
+const prestamos = [
+
+]
+// Fin Constructor
+
 //Función para ejecutar el plazo fijo.
 function plazoFijo() {
-    let tna = 75 / 100;
+    // Pedir datos y guardarlos al Array
+    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):\n1)_Monto (Solo números y mayor a $1000) - Días (Mínimo 30 días - Máximo 365 días). \n2)_Ingresa x para volver al menú principal.');
 
-    alert('Ingrese el monto a depositar, solo números y mayor a $1000');
-    let deposito = parseInt(prompt('Ingrese en monto a depositar:$ '));
+    if (ingreso.toUpperCase() != 'X') {
 
-    if (deposito >= 1000) {
+        let datos = ingreso.split('-');
+        const plazo = new PlazoFijo(datos[0], datos[1]);
+        plazosFijos.push(plazo);
+        plazo.asignarId(plazosFijos);
 
-        alert('Ingrese los días (Mínimo 30 días - Máximo 365 días)');
-        let duracion = parseInt(prompt('ingrese los dias: '));
+        let tna = 75 / 100;
 
-        if (duracion >= '30') {
+        if (plazo.deposito >= 1000) {
+            if (plazo.duracion >= '30') {
 
-            let costoFinal = deposito * (1 + tna * (duracion / 365));
-            let interes = costoFinal - deposito;
+                let costoFinal = plazo.deposito * (1 + tna * (plazo.duracion / 365));
+                let interes = costoFinal - plazo.deposito;
 
-            alert('El plazo elegido es: ' + duracion + ' Días\nSu capital:$ ' + deposito +
-                '\nIntereses:$ ' + interes.toFixed(2) +
-                '\nMonto Total:$ ' + costoFinal.toFixed(2) +
-                '\nTNA: ' + tna.toFixed(2) + '%');
+                console.log(plazosFijos);
+
+                alert('El plazo elegido es: ' + plazo.duracion + ' Días\nSu capital:$ ' + plazo.deposito +
+                    '\nIntereses:$ ' + interes.toFixed(2) +
+                    '\nMonto Total:$ ' + costoFinal.toFixed(2) +
+                    '\nTNA: ' + tna.toFixed(2) + '%');
+            } else {
+                alert('Ingrese un valor de días mayor a 30');
+            }
         } else {
-            alert('Ingrese un valor de días mayor a 30');
+            alert('Ingrese valor mayor a $1000.');
         }
-    } else {
-        alert('Ingrese valor mayor a $1000.');
     }
+
 }
 // Finaliza Función Plazo Fijo.
 
@@ -32,11 +72,13 @@ function plazoFijo() {
 function prestamo() {
     let porcentajeInteres = parseFloat();
     let meses = parseInt();
+    let monto = prompt('Ingrese el monto(Maximo $200.000):$ ');
 
-    alert('Ingresa el monto a solicitar, máximo $200.000');
-    let monto = parseInt(prompt('Ingrese el monto:$ '));
+    const presta = new Prestamo(monto[0]);
+    prestamos.push(presta);
+    presta.asignarId(prestamos);
 
-    if (monto <= 200000) {
+    if (presta.monto <= 200000) {
 
         let plazo = prompt('Por favor elije una plazo: \n1- 12 Meses. \n2- 24 Meses. \n3- 36 Meses \n4- 48 Meses \n5- 60 Meses.');
 
@@ -71,11 +113,11 @@ function prestamo() {
                 break;
         }
 
-        let interes = monto * porcentajeInteres;
-        let total = monto + interes;
+        let interes = presta.monto * porcentajeInteres;
+        let total = presta.monto + interes;
         let pagoMensual = total / meses;
 
-        alert('El monto solicitado es:$ ' + monto +
+        alert('El monto solicitado es:$ ' + presta.monto +
             '\nSu plazo: ' + meses + ' Meses\nEl Total:$ ' + total.toFixed(2) +
             '\nPago Final:$ ' + pagoMensual.toFixed(2));
     } else {
@@ -193,9 +235,9 @@ function cambioDivisas() {
 }
 
 
-let opcion = prompt('BIENVENIDO A BANCO JS \nPor favor elije una opción: \n1_ Plazo Fijo. \n2_ Prestamos. \n3_ Cambio de Divisas. \nPresioná X para finalizar.').toUpperCase;
+let opcion = prompt('BIENVENIDO A BANCO JS \nPor favor elije una opción: \n1_ Plazo Fijo. \n2_ Prestamos. \n3_ Cambio de Divisas. \nPresioná x para finalizar.');
 
-while (opcion != 'X') {
+while (opcion.toUpperCase() != 'X') {
 
     switch (opcion) {
 
@@ -215,7 +257,7 @@ while (opcion != 'X') {
             alert('Elegiste una opción inválida');
             break;
     }
-    opcion = prompt('Elegí una opción: \n1_ Plazo Fijo. \n2_ Prestamos. \n3_ Cambio de Divisas. \nPresioná X para finalizar.');
+    opcion = prompt('Elegí una opción: \n1_ Plazo Fijo. \n2_ Prestamos. \n3_ Cambio de Divisas. \nPresioná x para finalizar.');
 
 }
 
