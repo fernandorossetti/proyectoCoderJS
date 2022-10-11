@@ -21,6 +21,18 @@ class Prestamo {
         this.id = array.length;
     }
 }
+class CambioDivisas {
+    constructor(monedaInicial, monto, monedaFinal, id) {
+        this.monedaInicial = monedaInicial;
+        this.monto = parseInt(monto);
+        this.monedaFinal = monedaFinal;
+        this.id = id;
+    }
+
+    idCambio(array) {
+        this.id = array.length;
+    }
+}
 // Fin Clases
 
 // Inicio Constructores
@@ -28,6 +40,9 @@ const plazosFijos = [
 
 ]
 const prestamos = [
+
+]
+const cambios = [
 
 ]
 // Fin Constructores
@@ -137,83 +152,97 @@ function prestamo() {
 // Función Cambio de Divisas.
 function cambioDivisas() {
     // Tipos de Operaciónes.
-    let montoFinal = parseInt();
-    let dolarCompra = 278;
-    let dolarVenta = 282;
-    let euroCompra = 283;
-    let euroVenta = 287;
-    let realCompra = 65;
-    let realVenta = 71;
+    // let montoFinal = parseInt();
+    // let dolarCompra = 278;
+    // let dolarVenta = 282;
+    // let euroCompra = 283;
+    // let euroVenta = 287;
+    // let realCompra = 65;
+    // let realVenta = 71;
+    let monedas = [
+        dolarCompra = 278,
+        dolarVenta = 282,
+        euroCompra = 283,
+        euroVenta = 287,
+        realCompra = 65,
+        realVenta = 71
+    ]
 
-    let monedas = prompt('Por favor ingrese el tipo de Moneda con la que desea operar: \n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real. ');
-    let monto = parseInt(prompt('Ingrese el monto $:'));
-    let tipoConversion = prompt('Que moneda desea?. \n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real. ');
+    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):\nMoneda con la que desea operar:\n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real.'+ +
+    '\nIngrese el monto.\nQue moneda desea?. \n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real.\nIngresa x para volver al menú principal.');
 
-    switch (monedas) {
+    if (ingreso.toUpperCase() != 'X') {
+
+        let datos = ingreso.split('-');
+        const cambio = new CambioDivisas(datos[0], datos[1], datos[2]);
+        cambios.push(cambio);
+        cambio.idPlazo(cambios);
+    
+    switch (cambio.monedaInicial) {
         case '1':
-            switch (tipoConversion) {
+            switch (cambio.monedaFinal) {
                 case '1':
-                    montoFinal = monto;
+                    montoFinal = cambio.monto;
                     break;
                 case '2':
-                    montoFinal = monto / dolarVenta;
+                    montoFinal = cambio.monto / dolarVenta;
                     break;
                 case '3':
-                    montoFinal = monto / euroVenta;
+                    montoFinal = cambio.monto / euroVenta;
                     break;
                 case '4':
-                    montoFinal = monto / realVenta;
+                    montoFinal = cambio.monto / realVenta;
                     break;
             }
             break;
 
         case '2':
-            switch (tipoConversion) {
+            switch (cambio.monedaFinal) {
                 case '1':
-                    montoFinal = monto * dolarCompra;
+                    montoFinal = cambio.monto * dolarCompra;
                     break;
                 case '2':
-                    montoFinal = monto;
+                    montoFinal = cambio.monto;
                     break;
                 case '3':
-                    montoFinal = monto * (euroCompra / dolarCompra);
+                    montoFinal = cambio.monto * (euroCompra / dolarCompra);
                     break;
                 case '4':
-                    montoFinal = monto * (realCompra / dolarCompra);
+                    montoFinal = cambio.monto * (realCompra / dolarCompra);
                     break;
             }
             break;
 
         case '3':
-            switch (tipoConversion) {
+            switch (cambio.monedaFinal) {
                 case '1':
-                    montoFinal = monto * euroCompra;
+                    montoFinal = cambio.monto * euroCompra;
                     break;
                 case '2':
-                    montoFinal = monto * (euroCompra / dolarVenta);
+                    montoFinal = cambio.monto * (euroCompra / dolarVenta);
                     break;
                 case '3':
-                    montoFinal = monto;
+                    montoFinal = cambio.monto;
                     break;
                 case '4':
-                    montoFinal = monto * (euroCompra / realVenta);
+                    montoFinal = cambio.monto * (euroCompra / realVenta);
                     break;
             }
             break;
 
         case '4':
-            switch (tipoConversion) {
+            switch (cambio.monedaFinal) {
                 case '1':
-                    montoFinal = monto * realCompra;
+                    montoFinal = cambio.monto * realCompra;
                     break;
                 case '2':
-                    montoFinal = monto * (realCompra / dolarVenta);
+                    montoFinal = cambio.monto * (realCompra / dolarVenta);
                     break;
                 case '3':
-                    montoFinal = monto * (realCompra / euroVenta);
+                    montoFinal = cambio.monto * (realCompra / euroVenta);
                     break;
                 case '4':
-                    montoFinal = monto;
+                    montoFinal = cambio.monto;
                     break;
             }
             break;
@@ -240,6 +269,7 @@ function cambioDivisas() {
             alert('El resultado de la operación es:R$ ' + montoFinal.toFixed(2));
             break;
     }
+}
 }
 
 
