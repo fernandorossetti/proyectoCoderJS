@@ -50,7 +50,7 @@ const cambios = [
 //Función para ejecutar el plazo fijo.
 function plazoFijo() {
     // Pedir datos y guardarlos al Array
-    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):\nMonto (Solo números y mayor a $1000) - Días (Mínimo 30 días - Máximo 365 días). \nIngresa x para volver al menú principal.');
+    let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-35\nA)-Monto:$ (Solo números y mayor a $1000).\nB)-Días (Mínimo 30 días - Máximo 365 días).\nC)-Ingresa x para volver al menú principal.');
 
     if (ingreso.toUpperCase() != 'X') {
 
@@ -90,7 +90,7 @@ function plazoFijo() {
 function prestamo() {
     let porcentajeInteres = parseFloat();
     // Pedir datos y guardarlos al Array
-    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):\nMonto a solicitar(Maximo $200.000) y Cantidad de Meses(12-24-36-48-60):$ \nIngresa x para volver al menú principal');
+    let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-12\nA)-Monto a solicitar(Maximo $200.000).\nB)-Cantidad de Meses(12-24-36-48-60).\nC)-Ingresa x para volver al menú principal');
 
     if (ingreso.toUpperCase() != 'X') {
 
@@ -98,8 +98,8 @@ function prestamo() {
         const presta = new Prestamo(datos[0], datos[1]);
         prestamos.push(presta);
         presta.idPresta(prestamos);
-
-        if (presta.monto <= 200000 && presta.meses == 12 ) {
+//Aclaro que lo comentado en el IF es una filtro que quise hacer pero no me sale o no me doy cuenta, si me pueden ayudar se los agradecería.
+        if (presta.monto <= 200000 /*&& presta.meses != 12,24,36,48,60*/) {
 
             switch (presta.meses) {
                 case 12:
@@ -142,7 +142,7 @@ function prestamo() {
                 prestamo();
             }
         } else {
-            alert('Uno de los valores es erroneo, por favor vuelva a ingresarlos.');
+            alert('Monto superado, por favor vuelva a ingresarlo.');
             prestamo();
         }
     }
@@ -153,12 +153,6 @@ function prestamo() {
 function cambioDivisas() {
     // Tipos de Operaciónes.
     let montoFinal = parseInt();
-    // let dolarCompra = 278;
-    // let dolarVenta = 282;
-    // let euroCompra = 283;
-    // let euroVenta = 287;
-    // let realCompra = 65;
-    // let realVenta = 71;
     let monedas = [
         dolarCompra = 278,
         dolarVenta = 282,
@@ -168,7 +162,7 @@ function cambioDivisas() {
         realVenta = 71
     ]
 
-    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):\nMoneda con la que desea operar:\n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real.\nIngrese el monto.\nQue moneda desea?. \n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real.\nIngresa x para volver al menú principal.');
+    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):PJ 1-50000-2\nA)-Moneda con la que desea operar(Ingrese Número):\n1_Pesos.\n2_Dolar.\n3_Euro.\n4_Real.\n\nB)-Ingrese el monto.\n\nC)-Que moneda desea?(Ingrese Número).\n1_Pesos.\n2_Dolar.\n3_Euro.\n4_Real.\n\nD)-Ingresa x para volver al menú principal.');
 
     if (ingreso.toUpperCase() != 'X') {
 
@@ -176,103 +170,109 @@ function cambioDivisas() {
         const cambio = new CambioDivisas(datos[0], datos[1], datos[2]);
         cambios.push(cambio);
         cambio.idCambio(cambios);
-    
-    switch (cambio.monedaInicial) {
-        case '1':
-            switch (cambio.monedaFinal) {
-                case '1':
-                    montoFinal = cambio.monto;
-                    break;
-                case '2':
-                    montoFinal = cambio.monto / monedas.dolarVenta;
-                    break;
-                case '3':
-                    montoFinal = cambio.monto / monedas.euroVenta;
-                    break;
-                case '4':
-                    montoFinal = cambio.monto / monedas.realVenta;
-                    break;
-            }
-            break;
 
-        case '2':
-            switch (cambio.monedaFinal) {
-                case '1':
-                    montoFinal = cambio.monto * dolarCompra;
-                    break;
-                case '2':
-                    montoFinal = cambio.monto;
-                    break;
-                case '3':
-                    montoFinal = cambio.monto * (euroCompra / dolarCompra);
-                    break;
-                case '4':
-                    montoFinal = cambio.monto * (realCompra / dolarCompra);
-                    break;
-            }
-            break;
+        console.log(cambios);
 
-        case '3':
-            switch (cambio.monedaFinal) {
-                case '1':
-                    montoFinal = cambio.monto * euroCompra;
-                    break;
-                case '2':
-                    montoFinal = cambio.monto * (euroCompra / dolarVenta);
-                    break;
-                case '3':
-                    montoFinal = cambio.monto;
-                    break;
-                case '4':
-                    montoFinal = cambio.monto * (euroCompra / realVenta);
-                    break;
-            }
-            break;
+        switch (cambio.monedaInicial) {
+            case '1':
+                switch (cambio.monedaFinal) {
+                    case '1':
+                        montoFinal = cambio.monto;
+                        break;
+                    case '2':
+                        montoFinal = cambio.monto / monedas[1];
+                        break;
+                    case '3':
+                        montoFinal = cambio.monto / monedas[3];
+                        break;
+                    case '4':
+                        montoFinal = cambio.monto / monedas[5];
+                        break;
+                }
+                break;
 
-        case '4':
-            switch (cambio.monedaFinal) {
-                case '1':
-                    montoFinal = cambio.monto * realCompra;
-                    break;
-                case '2':
-                    montoFinal = cambio.monto * (realCompra / dolarVenta);
-                    break;
-                case '3':
-                    montoFinal = cambio.monto * (realCompra / euroVenta);
-                    break;
-                case '4':
-                    montoFinal = cambio.monto;
-                    break;
-            }
-            break;
+            case '2':
+                switch (cambio.monedaFinal) {
+                    case '1':
+                        montoFinal = cambio.monto * monedas[0];
+                        break;
+                    case '2':
+                        montoFinal = cambio.monto;
+                        break;
+                    case '3':
+                        montoFinal = cambio.monto * (monedas[2] / monedas[0]);
+                        break;
+                    case '4':
+                        montoFinal = cambio.monto * (monedas[4] / monedas[0]);
+                        break;
+                }
+                break;
 
-        default:
-            alert('Elegiste una opción inválida');
-            break;
-    }
+            case '3':
+                switch (cambio.monedaFinal) {
+                    case '1':
+                        montoFinal = cambio.monto * monedas[2];
+                        break;
+                    case '2':
+                        montoFinal = cambio.monto * (monedas[2] / monedas[0]);
+                        break;
+                    case '3':
+                        montoFinal = cambio.monto;
+                        break;
+                    case '4':
+                        montoFinal = cambio.monto * (monedas[2] / monedas[5]);
+                        break;
+                }
+                break;
 
-    switch (cambio.monedaFinal) {
-        case '1':
-            alert('El resultado de la operación es:$ ARS' + montoFinal.toFixed(2));
-            break;
+            case '4':
+                switch (cambio.monedaFinal) {
+                    case '1':
+                        montoFinal = cambio.monto * monedas[4];
+                        break;
+                    case '2':
+                        montoFinal = cambio.monto * (monedas[4] / monedas[1]);
+                        break;
+                    case '3':
+                        montoFinal = cambio.monto * (monedas[4] / monedas[3]);
+                        break;
+                    case '4':
+                        montoFinal = cambio.monto;
+                        break;
+                }
+                break;
 
-        case '2':
-            alert('El resultado de la operación es:$ U$d ' + montoFinal.toFixed(2));
-            break;
+            default:
+                alert('Elegiste una opción inválida');
+                break;
+        }
 
-        case '3':
-            alert('El resultado de la operación es:€ ' + montoFinal.toFixed(2));
-            break;
+        switch (cambio.monedaFinal) {
+            case '1':
+                alert('El resultado de la operación es:$ ARS' + montoFinal.toFixed(2));
+                break;
 
-        case '4':
-            alert('El resultado de la operación es:R$ ' + montoFinal.toFixed(2));
-            break;
+            case '2':
+                alert('El resultado de la operación es:$ U$d ' + montoFinal.toFixed(2));
+                break;
+
+            case '3':
+                alert('El resultado de la operación es:€ ' + montoFinal.toFixed(2));
+                break;
+
+            case '4':
+                alert('El resultado de la operación es:R$ ' + montoFinal.toFixed(2));
+                break;
+        }
+        let reIngreso = prompt('Desea realizar otro Cambio?\n1)-Si\n2)-No');
+        if (reIngreso == 1) {
+            cambioDivisas();
+        }
     }
 }
-}
+// Finaliza Función Cambio
 
-
-let opcion = prompt('BIENVENIDO A BANCO JS \nPor favor elije una opción: \n1_ Plazo Fijo. \n2_ Prestamos. \n3_ Cambio de Divisas. \nPresioná x para finalizar.');
+let opcion = prompt('BIENVENIDO A BANCO JS \nA)-Por favor elije una opción(Solo Número):\n1_Plazo Fijo.\n2_Prestamos.\n3_Cambio de Divisas.\nB)-Presioná x para finalizar.');
 
 while (opcion.toUpperCase() != 'X') {
 
@@ -294,7 +294,7 @@ while (opcion.toUpperCase() != 'X') {
             alert('Elegiste una opción inválida');
             break;
     }
-    opcion = prompt('Elegí una opción: \n1_ Plazo Fijo. \n2_ Prestamos. \n3_ Cambio de Divisas. \nPresioná x para finalizar.');
+    opcion = prompt('Elegí una opción(Solo Número):\n1_Plazo Fijo.\n2_Prestamos.\n3_Cambio de Divisas.\nB)-Presioná x para finalizar.');
 
 }
 
