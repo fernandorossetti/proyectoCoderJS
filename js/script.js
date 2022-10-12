@@ -99,7 +99,7 @@ function prestamo() {
         prestamos.push(presta);
         presta.idPresta(prestamos);
 
-        if (presta.monto <= 200000) {
+        if (presta.monto <= 200000 && presta.meses == 12 ) {
 
             switch (presta.meses) {
                 case 12:
@@ -142,7 +142,7 @@ function prestamo() {
                 prestamo();
             }
         } else {
-            alert('Supero el monto máximo permitido, vuelva a ingresar!');
+            alert('Uno de los valores es erroneo, por favor vuelva a ingresarlos.');
             prestamo();
         }
     }
@@ -152,7 +152,7 @@ function prestamo() {
 // Función Cambio de Divisas.
 function cambioDivisas() {
     // Tipos de Operaciónes.
-    // let montoFinal = parseInt();
+    let montoFinal = parseInt();
     // let dolarCompra = 278;
     // let dolarVenta = 282;
     // let euroCompra = 283;
@@ -168,15 +168,14 @@ function cambioDivisas() {
         realVenta = 71
     ]
 
-    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):\nMoneda con la que desea operar:\n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real.'+ +
-    '\nIngrese el monto.\nQue moneda desea?. \n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real.\nIngresa x para volver al menú principal.');
+    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):\nMoneda con la que desea operar:\n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real.\nIngrese el monto.\nQue moneda desea?. \n1_ Pesos. \n2_ Dolar. \n3_ Euro. \n4_ Real.\nIngresa x para volver al menú principal.');
 
     if (ingreso.toUpperCase() != 'X') {
 
         let datos = ingreso.split('-');
         const cambio = new CambioDivisas(datos[0], datos[1], datos[2]);
         cambios.push(cambio);
-        cambio.idPlazo(cambios);
+        cambio.idCambio(cambios);
     
     switch (cambio.monedaInicial) {
         case '1':
@@ -185,13 +184,13 @@ function cambioDivisas() {
                     montoFinal = cambio.monto;
                     break;
                 case '2':
-                    montoFinal = cambio.monto / dolarVenta;
+                    montoFinal = cambio.monto / monedas.dolarVenta;
                     break;
                 case '3':
-                    montoFinal = cambio.monto / euroVenta;
+                    montoFinal = cambio.monto / monedas.euroVenta;
                     break;
                 case '4':
-                    montoFinal = cambio.monto / realVenta;
+                    montoFinal = cambio.monto / monedas.realVenta;
                     break;
             }
             break;
@@ -252,7 +251,7 @@ function cambioDivisas() {
             break;
     }
 
-    switch (tipoConversion) {
+    switch (cambio.monedaFinal) {
         case '1':
             alert('El resultado de la operación es:$ ARS' + montoFinal.toFixed(2));
             break;
