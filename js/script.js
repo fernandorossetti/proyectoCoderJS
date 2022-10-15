@@ -37,7 +37,7 @@ class CambioDivisas {
 
 // Inicio Constructores
 const plazosFijos = [
-
+    new PlazoFijo(15000, 98, 1)
 ]
 const prestamos = [
 
@@ -50,7 +50,8 @@ const cambios = [
 //Función para ejecutar el plazo fijo.
 function plazoFijo() {
     // Pedir datos y guardarlos al Array
-    let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-35\nA)-Monto:$ (Solo números y mayor a $1000).\nB)-Días (Mínimo 30 días - Máximo 365 días).\nC)-Ingresa x para volver al menú principal.');
+    let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-35\nA)-Monto:$ (Solo números y mayor a $1000).' + '\n' +
+        'B)-Días (Mínimo 30 días - Máximo 365 días).\nIngresa x para volver al menú principal.');
 
     if (ingreso.toUpperCase() != 'X') {
 
@@ -74,7 +75,7 @@ function plazoFijo() {
                 '\nTNA: ' + tna.toFixed(2) + '%');
 
             let reIngreso = prompt('Desea realizar otro Plazo?\n1)-Si\n2)-No');
-            if (reIngreso == 1) {
+            if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
                 plazoFijo();
             }
         } else {
@@ -90,7 +91,8 @@ function plazoFijo() {
 function prestamo() {
     let porcentajeInteres = parseFloat();
     // Pedir datos y guardarlos al Array
-    let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-12\nA)-Monto a solicitar(Maximo $200.000).\nB)-Cantidad de Meses(12-24-36-48-60).\nC)-Ingresa x para volver al menú principal');
+    let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-12\nA)-Monto a solicitar(Maximo $200.000).\nB)-Cantidad de Meses(12-24-36-48-60).' + '\n' +
+        'Ingresa x para volver al menú principal');
 
     if (ingreso.toUpperCase() != 'X') {
 
@@ -98,7 +100,7 @@ function prestamo() {
         const presta = new Prestamo(datos[0], datos[1]);
         prestamos.push(presta);
         presta.idPresta(prestamos);
-//Aclaro que lo comentado en el IF es una filtro que quise hacer pero no me sale o no me doy cuenta, si me pueden ayudar se los agradecería.
+        //Aclaro que lo comentado en el IF es una filtro que quise hacer pero no me sale o no me doy cuenta, si me pueden ayudar se los agradecería.
         if (presta.monto <= 200000 /*&& presta.meses != 12,24,36,48,60*/) {
 
             switch (presta.meses) {
@@ -138,7 +140,7 @@ function prestamo() {
                 '\nPago Final:$ ' + pagoMensual.toFixed(2));
 
             let reIngreso = prompt('Desea realizar otro Préstamo?\n1)-Si\n2)-No');
-            if (reIngreso == 1) {
+            if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
                 prestamo();
             }
         } else {
@@ -162,7 +164,9 @@ function cambioDivisas() {
         realVenta = 71
     ]
 
-    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):PJ 1-50000-2\nA)-Moneda con la que desea operar(Ingrese Número):\n1_Pesos.\n2_Dolar.\n3_Euro.\n4_Real.\n\nB)-Ingrese el monto.\n\nC)-Que moneda desea?(Ingrese Número).\n1_Pesos.\n2_Dolar.\n3_Euro.\n4_Real.\n\nD)-Ingresa x para volver al menú principal.');
+    let ingreso = prompt('Ingresar los datos solicitados separados por un(-):PJ 1-50000-2\nA)-Moneda con la que desea operar(Ingrese Número):' + '\n' +
+        '1_Pesos.\n2_Dolar.\n3_Euro.\n4_Real.\n\nB)-Ingrese el monto.\n\nC)-Que moneda desea?(Ingrese Número).\n1_Pesos.\n2_Dolar.\n3_Euro.\n4_Real.' + '\n\n' +
+        'Ingresa x para volver al menú principal.');
 
     if (ingreso.toUpperCase() != 'X') {
 
@@ -265,14 +269,15 @@ function cambioDivisas() {
                 break;
         }
         let reIngreso = prompt('Desea realizar otro Cambio?\n1)-Si\n2)-No');
-        if (reIngreso == 1) {
+        if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
             cambioDivisas();
         }
     }
 }
 // Finaliza Función Cambio
 
-let opcion = prompt('BIENVENIDO A BANCO JS \nA)-Por favor elije una opción(Solo Número):\n1_Plazo Fijo.\n2_Prestamos.\n3_Cambio de Divisas.\nB)-Presioná x para finalizar.');
+// Inicio del programa para pedir datos y unirlos al array
+let opcion = prompt('BIENVENIDO A BANCO JS \nPor favor elije una opción(Solo Número):\n1_Plazo Fijo.\n2_Prestamos.\n3_Cambio de Divisas.\nPresioná x para finalizar.');
 
 while (opcion.toUpperCase() != 'X') {
 
@@ -291,11 +296,81 @@ while (opcion.toUpperCase() != 'X') {
             break;
 
         default:
-            alert('Elegiste una opción inválida');
+            alert('Elegiste una opción inválida, vuelva a porbar!');
             break;
     }
-    opcion = prompt('Elegí una opción(Solo Número):\n1_Plazo Fijo.\n2_Prestamos.\n3_Cambio de Divisas.\nB)-Presioná x para finalizar.');
+    opcion = prompt('Elegí una opción(Solo Número):\n1_Plazo Fijo.\n2_Prestamos.\n3_Cambio de Divisas.\nPresioná x para finalizar.');
 
 }
 
+// Función para mostrar movimientos.
+function mostrarPlazoFijo(array) {
+    let arrayOrdenado = array.slice(0);
+    let info = '';
+
+    arrayOrdenado.forEach(elemento => {
+        info += 'Depósito: ' + elemento.deposito + '\nDuración: ' + elemento.duracion + '\n\n'
+    });
+
+    return info;
+}
+// Finaliza Función.
+
+
+// Validación y muestra si posee movimientos.
+if (plazosFijos != 0 || prestamos != 0 || cambios != 0) {
+    let opcion = prompt('Desea ver sus movimientos?(Solo Número)\n1)_Si \n2)_No');
+
+    switch (opcion) {
+        case '1':
+            let criterio = prompt('Elegí el criterio deseado(Solo Número):\n1_Plazos Fijos \n2_Prestamos \n3_Cambios de Divisas \nPresione x para salir.');
+            while (criterio.toUpperCase() != 'X') {
+                switch (criterio) {
+                    case '1':
+                        if (plazosFijos != 0) {
+                            alert(mostrarPlazoFijo(plazosFijos));
+                            break;
+                        } else {
+                            alert('No posee movimientos');
+                        }
+                        break;
+
+                    case '2':
+                        if (prestamos != 0) {
+                            mostrarPrestamos();
+                            break;
+                        } else {
+                            alert('No posee movimientos');
+                        }
+                        break;
+
+                    case '3':
+                        if (cambios != 0) {
+                            mostrarCambios();
+                            break;
+                        } else {
+                            alert('No posee movimientos');
+                        }
+                        break;
+
+                    default:
+                        alert('Elegiste una opción inválida, vuelva a porbar!');
+                        break;
+                }
+            }
+            break;
+
+        case '2':
+            break;
+
+        default:
+            alert('Elegiste una opción inválida, vuelva a porbar!');
+            break;
+    }
+    opcion = prompt('Desea ver sus movimientos?(Solo Número)\n1)_Si\n2)_No');
+}
+// Finaliza validación.
+
 alert('Gracias por su visita, vuelva pronto!');
+
+// Fin del programa. 
