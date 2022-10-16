@@ -37,7 +37,7 @@ class CambioDivisas {
 
 // Inicio Constructores
 const plazosFijos = [
-    new PlazoFijo(15000, 98, 1)
+
 ]
 const prestamos = [
 
@@ -47,7 +47,7 @@ const cambios = [
 ]
 // Fin Constructores
 
-//Función para ejecutar el plazo fijo.
+//Inicio de Funciones
 function plazoFijo() {
     // Pedir datos y guardarlos al Array
     let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-35\nA)-Monto:$ (Solo números y mayor a $1000).' + '\n' +
@@ -85,9 +85,7 @@ function plazoFijo() {
     }
 
 }
-// Finaliza Función Plazo Fijo.
 
-//Función para ejecutar el prestamo.
 function prestamo() {
     let porcentajeInteres = parseFloat();
     // Pedir datos y guardarlos al Array
@@ -149,9 +147,7 @@ function prestamo() {
         }
     }
 }
-// Finaliza Función Prestamo.
 
-// Función Cambio de Divisas.
 function cambioDivisas() {
     // Tipos de Operaciónes.
     let montoFinal = parseInt();
@@ -274,7 +270,36 @@ function cambioDivisas() {
         }
     }
 }
-// Finaliza Función Cambio
+
+function mostrarPlazoFijo(array) {
+    let info = '';
+
+    array.forEach(elemento => {
+        info += 'Depósito: ' + elemento.deposito + '\nDuración: ' + elemento.duracion + '\n\n'
+    });
+
+    return info;
+}
+
+function mostrarPrestamos(array) {
+    let info = '';
+
+    array.forEach(elemento => {
+        info += 'Monto: ' + elemento.monto + '\nMeses: ' + elemento.meses + '\n\n'
+    });
+    return info;
+}
+
+function mostrarCambios(array) {
+    let arrayOrdenado = array.slice(0);
+    let info = '';
+
+    arrayOrdenado.forEach(elemento => {
+        info += 'Moneda Inicial: ' + elemento.monedaInicial + '\nMonto: ' + elemento.monto + '\nMoneda Final: ' + elemento.monedaFinal + '\n\n'
+    });
+    return info;
+}
+//Finaliza Funciónes.
 
 // Inicio del programa para pedir datos y unirlos al array
 let opcion = prompt('BIENVENIDO A BANCO JS \nPor favor elije una opción(Solo Número):\n1_Plazo Fijo.\n2_Prestamos.\n3_Cambio de Divisas.\nPresioná x para finalizar.');
@@ -303,28 +328,17 @@ while (opcion.toUpperCase() != 'X') {
 
 }
 
-// Función para mostrar movimientos.
-function mostrarPlazoFijo(array) {
-    let arrayOrdenado = array.slice(0);
-    let info = '';
-
-    arrayOrdenado.forEach(elemento => {
-        info += 'Depósito: ' + elemento.deposito + '\nDuración: ' + elemento.duracion + '\n\n'
-    });
-
-    return info;
-}
-// Finaliza Función.
-
-
 // Validación y muestra si posee movimientos.
 if (plazosFijos != 0 || prestamos != 0 || cambios != 0) {
     let opcion = prompt('Desea ver sus movimientos?(Solo Número)\n1)_Si \n2)_No');
 
-    switch (opcion) {
-        case '1':
-            let criterio = prompt('Elegí el criterio deseado(Solo Número):\n1_Plazos Fijos \n2_Prestamos \n3_Cambios de Divisas \nPresione x para salir.');
-            while (criterio.toUpperCase() != 'X') {
+    while (opcion != 2) {
+
+        switch (opcion) {
+
+            case '1':
+                let criterio = prompt('Elegí el criterio deseado(Solo Número):\n1_Plazos Fijos \n2_Prestamos \n3_Cambios de Divisas');
+
                 switch (criterio) {
                     case '1':
                         if (plazosFijos != 0) {
@@ -337,7 +351,7 @@ if (plazosFijos != 0 || prestamos != 0 || cambios != 0) {
 
                     case '2':
                         if (prestamos != 0) {
-                            mostrarPrestamos();
+                            alert(mostrarPrestamos(prestamos));
                             break;
                         } else {
                             alert('No posee movimientos');
@@ -346,7 +360,7 @@ if (plazosFijos != 0 || prestamos != 0 || cambios != 0) {
 
                     case '3':
                         if (cambios != 0) {
-                            mostrarCambios();
+                            alert(mostrarCambios(cambios));
                             break;
                         } else {
                             alert('No posee movimientos');
@@ -357,17 +371,18 @@ if (plazosFijos != 0 || prestamos != 0 || cambios != 0) {
                         alert('Elegiste una opción inválida, vuelva a porbar!');
                         break;
                 }
-            }
-            break;
+                break;
 
-        case '2':
-            break;
+            case '2':
+                break;
 
-        default:
-            alert('Elegiste una opción inválida, vuelva a porbar!');
-            break;
+            default:
+                alert('Elegiste una opción inválida, vuelva a porbar!');
+                break;
+
+        }
+        opcion = prompt('Desea ver sus movimientos?(Solo Número)\n1)_Si \n2)_No');
     }
-    opcion = prompt('Desea ver sus movimientos?(Solo Número)\n1)_Si\n2)_No');
 }
 // Finaliza validación.
 
