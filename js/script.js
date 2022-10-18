@@ -88,19 +88,23 @@ function plazoFijo() {
 
 function prestamo() {
     let porcentajeInteres = parseFloat();
+    
     // Pedir datos y guardarlos al Array
     let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-12\nA)-Monto a solicitar(Maximo $200.000).\nB)-Cantidad de Meses(12-24-36-48-60).' + '\n' +
         'Ingresa x para volver al menú principal');
 
     if (ingreso.toUpperCase() != 'X') {
-
+        let meses = [12,24,36,48,60];
         let datos = ingreso.split('-');
         const presta = new Prestamo(datos[0], datos[1]);
         prestamos.push(presta);
         presta.idPresta(prestamos);
         //Aclaro que lo comentado en el IF es una filtro que quise hacer pero no me sale o no me doy cuenta, si me pueden ayudar se los agradecería.
-        if (presta.monto <= 200000 /*&& presta.meses != 12,24,36,48,60*/) {
+        if (presta.monto >= 200000 || presta.meses != meses[0] && presta.meses != meses[1] && presta.meses != meses[2] && presta.meses != meses[3] && presta.meses != meses[4]) {
 
+            alert('Uno de los valores es erroneo, por favor vuelva a ingresarlo.');
+            prestamo();
+        } else {
             switch (presta.meses) {
                 case 12:
                     porcentajeInteres = 0.25;
@@ -121,13 +125,7 @@ function prestamo() {
                 case 60:
                     porcentajeInteres = 0.80;
                     break;
-
-                default:
-                    alert('Cántidad de meses inválida, revisa y vuelve a ingresar');
-                    break;
             }
-
-            console.log(prestamos);
 
             let interes = presta.monto * porcentajeInteres;
             let total = presta.monto + interes;
@@ -141,9 +139,6 @@ function prestamo() {
             if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
                 prestamo();
             }
-        } else {
-            alert('Monto superado, por favor vuelva a ingresarlo.');
-            prestamo();
         }
     }
 }
