@@ -99,7 +99,7 @@ function prestamo() {
         const presta = new Prestamo(datos[0], datos[1]);
         prestamos.push(presta);
         presta.idPresta(prestamos);
-        //Aclaro que lo comentado en el IF es una filtro que quise hacer pero no me sale o no me doy cuenta, si me pueden ayudar se los agradecería.
+        //Aclaro que lo comentado en el IF es una filtro que lo pude hacer andar asi, de haber otra manera, que de seguro lo hay y no me doy cuenta, les agradecería la recomendación.
         if (presta.monto >= 200000 || presta.meses != meses[0] && presta.meses != meses[1] && presta.meses != meses[2] && presta.meses != meses[3] && presta.meses != meses[4]) {
 
             alert('Uno de los valores es erroneo, por favor vuelva a ingresarlo.');
