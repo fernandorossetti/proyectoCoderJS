@@ -57,8 +57,6 @@ function plazoFijo() {
 
         let datos = ingreso.split('-');
         const plazo = new PlazoFijo(datos[0], datos[1]);
-        plazosFijos.push(plazo);
-        plazo.idPlazo(plazosFijos);
 
         let tna = 75 / 100;
 
@@ -67,12 +65,13 @@ function plazoFijo() {
             let costoFinal = plazo.deposito * (1 + tna * (plazo.duracion / 365));
             let interes = costoFinal - plazo.deposito;
 
-            console.log(plazosFijos);
-
             alert('El plazo elegido es: ' + plazo.duracion + ' Días\nSu capital:$ ' + plazo.deposito +
                 '\nIntereses:$ ' + interes.toFixed(2) +
                 '\nMonto Total:$ ' + costoFinal.toFixed(2) +
                 '\nTNA: ' + tna.toFixed(2) + '%');
+
+            plazosFijos.push(plazo);
+            plazo.idPlazo(plazosFijos);
 
             let reIngreso = prompt('Desea realizar otro Plazo?\n1)-Si\n2)-No');
             if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
@@ -88,17 +87,15 @@ function plazoFijo() {
 
 function prestamo() {
     let porcentajeInteres = parseFloat();
-    
+
     // Pedir datos y guardarlos al Array
     let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-12\nA)-Monto a solicitar(Maximo $200.000).\nB)-Cantidad de Meses(12-24-36-48-60).' + '\n' +
         'Ingresa x para volver al menú principal');
 
     if (ingreso.toUpperCase() != 'X') {
-        let meses = [12,24,36,48,60];
+        let meses = [12, 24, 36, 48, 60];
         let datos = ingreso.split('-');
         const presta = new Prestamo(datos[0], datos[1]);
-        prestamos.push(presta);
-        presta.idPresta(prestamos);
         //Aclaro que lo comentado en el IF es una filtro que lo pude hacer andar asi, de haber otra manera, que de seguro lo hay y no me doy cuenta, les agradecería la recomendación.
         if (presta.monto >= 200000 || presta.meses != meses[0] && presta.meses != meses[1] && presta.meses != meses[2] && presta.meses != meses[3] && presta.meses != meses[4]) {
 
@@ -135,6 +132,9 @@ function prestamo() {
                 '\nSu plazo: ' + presta.meses + ' Meses\nEl Total:$ ' + total.toFixed(2) +
                 '\nPago Final:$ ' + pagoMensual.toFixed(2));
 
+            prestamos.push(presta);
+            presta.idPresta(prestamos);
+
             let reIngreso = prompt('Desea realizar otro Préstamo?\n1)-Si\n2)-No');
             if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
                 prestamo();
@@ -163,104 +163,149 @@ function cambioDivisas() {
 
         let datos = ingreso.split('-');
         const cambio = new CambioDivisas(datos[0], datos[1], datos[2]);
-        cambios.push(cambio);
-        cambio.idCambio(cambios);
 
-        console.log(cambios);
+        if (cambio.monedaInicial <= '4') {
 
-        switch (cambio.monedaInicial) {
-            case '1':
+            switch (cambio.monedaInicial) {
+                case '1':
+                    switch (cambio.monedaFinal) {
+                        case '1':
+                            montoFinal = cambio.monto;
+                            break;
+                        case '2':
+                            montoFinal = cambio.monto / monedas[1];
+                            break;
+                        case '3':
+                            montoFinal = cambio.monto / monedas[3];
+                            break;
+                        case '4':
+                            montoFinal = cambio.monto / monedas[5];
+                            break;
+                    }
+                    break;
+
+                case '2':
+                    switch (cambio.monedaFinal) {
+                        case '1':
+                            montoFinal = cambio.monto * monedas[0];
+                            break;
+                        case '2':
+                            montoFinal = cambio.monto;
+                            break;
+                        case '3':
+                            montoFinal = cambio.monto * (monedas[2] / monedas[0]);
+                            break;
+                        case '4':
+                            montoFinal = cambio.monto * (monedas[4] / monedas[0]);
+                            break;
+                    }
+                    break;
+
+                case '3':
+                    switch (cambio.monedaFinal) {
+                        case '1':
+                            montoFinal = cambio.monto * monedas[2];
+                            break;
+                        case '2':
+                            montoFinal = cambio.monto * (monedas[2] / monedas[0]);
+                            break;
+                        case '3':
+                            montoFinal = cambio.monto;
+                            break;
+                        case '4':
+                            montoFinal = cambio.monto * (monedas[2] / monedas[5]);
+                            break;
+                    }
+                    break;
+
+                case '4':
+                    switch (cambio.monedaFinal) {
+                        case '1':
+                            montoFinal = cambio.monto * monedas[4];
+                            break;
+                        case '2':
+                            montoFinal = cambio.monto * (monedas[4] / monedas[1]);
+                            break;
+                        case '3':
+                            montoFinal = cambio.monto * (monedas[4] / monedas[3]);
+                            break;
+                        case '4':
+                            montoFinal = cambio.monto;
+                            break;
+                    }
+                    break;
+            }
+            if (cambio.monedaFinal <= '4') {
+
                 switch (cambio.monedaFinal) {
                     case '1':
-                        montoFinal = cambio.monto;
+                        alert('El resultado de la operación es:$ ARS' + montoFinal.toFixed(2));
                         break;
+
                     case '2':
-                        montoFinal = cambio.monto / monedas[1];
+                        alert('El resultado de la operación es:$ U$d ' + montoFinal.toFixed(2));
                         break;
+
                     case '3':
-                        montoFinal = cambio.monto / monedas[3];
+                        alert('El resultado de la operación es:€ ' + montoFinal.toFixed(2));
                         break;
+
                     case '4':
-                        montoFinal = cambio.monto / monedas[5];
+                        alert('El resultado de la operación es:R$ ' + montoFinal.toFixed(2));
                         break;
                 }
-                break;
+            } else {
+                alert('La moneda a la que desea cambiar es erronea, por favor vuelva a ingresarla.');
+                cambioDivisas();
+            }
+            
+            // Switch para que al momento de mostrar el movimiento no cargue el número sino el valor que le corresponde en base a lo que elija.
+            switch (cambio.monedaInicial) {
+                case '1':
+                    cambio.monedaInicial = 'Pesos';
+                    break;
 
-            case '2':
-                switch (cambio.monedaFinal) {
-                    case '1':
-                        montoFinal = cambio.monto * monedas[0];
-                        break;
-                    case '2':
-                        montoFinal = cambio.monto;
-                        break;
-                    case '3':
-                        montoFinal = cambio.monto * (monedas[2] / monedas[0]);
-                        break;
-                    case '4':
-                        montoFinal = cambio.monto * (monedas[4] / monedas[0]);
-                        break;
-                }
-                break;
+                case '2':
+                    cambio.monedaInicial = 'Dolares';
+                    break;
 
-            case '3':
-                switch (cambio.monedaFinal) {
-                    case '1':
-                        montoFinal = cambio.monto * monedas[2];
-                        break;
-                    case '2':
-                        montoFinal = cambio.monto * (monedas[2] / monedas[0]);
-                        break;
-                    case '3':
-                        montoFinal = cambio.monto;
-                        break;
-                    case '4':
-                        montoFinal = cambio.monto * (monedas[2] / monedas[5]);
-                        break;
-                }
-                break;
+                case '3':
+                    cambio.monedaInicial = 'Euros';
+                    break;
 
-            case '4':
-                switch (cambio.monedaFinal) {
-                    case '1':
-                        montoFinal = cambio.monto * monedas[4];
-                        break;
-                    case '2':
-                        montoFinal = cambio.monto * (monedas[4] / monedas[1]);
-                        break;
-                    case '3':
-                        montoFinal = cambio.monto * (monedas[4] / monedas[3]);
-                        break;
-                    case '4':
-                        montoFinal = cambio.monto;
-                        break;
-                }
-                break;
+                case '4':
+                    cambio.monedaInicial = 'Reales';
+                    break;
+            }
 
-            default:
-                alert('Elegiste una opción inválida');
-                break;
-        }
+            // Switch para que al momento de mostrar el movimiento no cargue el número sino el resultado total de la moneda que le corresponde en base a lo que eligio.
+            switch (cambio.monedaFinal) {
+                case '1':
+                    cambio.monedaFinal = +montoFinal.toFixed(2) + ' Pesos';
+                    break;
 
-        switch (cambio.monedaFinal) {
-            case '1':
-                alert('El resultado de la operación es:$ ARS' + montoFinal.toFixed(2));
-                break;
+                case '2':
+                    cambio.monedaFinal = +montoFinal.toFixed(2) + ' Dolares';
+                    break;
 
-            case '2':
-                alert('El resultado de la operación es:$ U$d ' + montoFinal.toFixed(2));
-                break;
+                case '3':
+                    cambio.monedaFinal = +montoFinal.toFixed(2) + ' Euros';
+                    break;
 
-            case '3':
-                alert('El resultado de la operación es:€ ' + montoFinal.toFixed(2));
-                break;
+                case '4':
+                    cambio.monedaFinal = +montoFinal.toFixed(2) + ' Reales';
+                    break;
+            }
 
-            case '4':
-                alert('El resultado de la operación es:R$ ' + montoFinal.toFixed(2));
-                break;
-        }
-        let reIngreso = prompt('Desea realizar otro Cambio?\n1)-Si\n2)-No');
-        if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
+            cambios.push(cambio);
+            cambio.idCambio(cambios);
+
+            let reIngreso = prompt('Desea realizar otro Cambio?\n1)-Si\n2)-No');
+            if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
+                cambioDivisas();
+            }
+        } else {
+            alert('La moneda ingresada es erronea, por favor vuelva a ingresarla.');
             cambioDivisas();
         }
     }
