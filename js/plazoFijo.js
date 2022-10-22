@@ -16,41 +16,40 @@ const plazosFijos = [
 
 function plazoFijo() {
     // Pedir datos y guardarlos al Array
-    let ingreso = prompt('Ingresar los datos solicitados separados por un(-): PJ 20000-35\nA)-Monto:$ (Solo números y mayor a $1000).' + '\n' +
-        'B)-Días (Mínimo 30 días - Máximo 365 días).\nIngresa x para volver al menú principal.');
+    let ingresoCapital = document.getElementById('capitalAInvertir').value;
+    let plazoCapital = document.getElementById('txtPlazoEnDias').value;
 
-    if (ingreso.toUpperCase() != 'X') {
-
-        let datos = ingreso.split('-');
+    if (ingresoCapital >= 1000 && plazoCapital >= '30' && plazoCapital <= '365') {
+        let datos = [
+            ingresoCapital,
+            plazoCapital
+        ];
         const plazo = new PlazoFijo(datos[0], datos[1]);
 
-        let tna = 75 / 100;
+        plazosFijos.push(plazo);
+        plazo.idPlazo(plazosFijos);
 
-        if (plazo.deposito >= 1000 && plazo.duracion >= '30') {
-
-            let costoFinal = plazo.deposito * (1 + tna * (plazo.duracion / 365));
-            let interes = costoFinal - plazo.deposito;
-
-            alert('El plazo elegido es: ' + plazo.duracion + ' Días\nSu capital:$ ' + plazo.deposito +
-                '\nIntereses:$ ' + interes.toFixed(2) +
-                '\nMonto Total:$ ' + costoFinal.toFixed(2) +
-                '\nTNA: ' + tna.toFixed(2) + '%');
-
-            plazosFijos.push(plazo);
-            plazo.idPlazo(plazosFijos);
-
-            let reIngreso = prompt('Desea realizar otro Plazo?\n1)-Si\n2)-No');
-            if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
-                plazoFijo();
-            }else{
-                verificarMovimientosPlazo();
-            }
-        } else {
-            alert('Uno de los valores es erroneo, por favor vuelva a ingresarlos.');
+        let reIngreso = prompt('Desea realizar otro Plazo?\n1)-Si\n2)-No');
+        if (reIngreso == 1 || reIngreso.toUpperCase() == 'SI') {
+            limpiarCampos();
             plazoFijo();
+        } else {
+            alerta(plazosFijos, contenedorAlerta);
+            //mostrarMovimientos();
+            //verificarMovimientosPlazo();
         }
-    }
+     } else {
+         alert('Uno de los valores es erroneo, por favor vuelva a ingresarlos.');
+         limpiarCampos();
+     }
 
+}
+
+function limpiarCampos(){
+    let elementos = document.getElementsByTagName('input');
+    for (let i = 0; i < elementos.length; i++) {
+        elementos[i].value='';          
+      }
 }
 
 function mostrarPlazoFijo(array) {
@@ -62,6 +61,12 @@ function mostrarPlazoFijo(array) {
 
     return info;
 }
+
+function mostrarMovimientos(){
+    var formulario = document.getElementById('resultadosCalculo');
+    formulario.style.display = 'block';
+    }
+     
 
 function verificarMovimientosPlazo() {
     if (plazosFijos != 0) {
@@ -87,12 +92,32 @@ function verificarMovimientosPlazo() {
             break;
 
         }
-        opcion = prompt('Desea ver sus movimientos?(Solo Número)\n1)_Si \n2)_No');
     }
     alert('Gracias por su visita, vuelva pronto!');
 }
 
-//Elementos que usaré del DOM
-const btnPlazoFijo = document.getElementById('plazoFijo');
+function alerta(array, contenedor) {
+    contenedor.innerHTML = '';
+    for (const item of array) {
+        let tna = 75 / 100;
+        let costoFinal = item.deposito * (1 + tna * (item.duracion / 365));
+        let interes = costoFinal - item.deposito;
+        let tarjeta = document.createElement('div');
+        tarjeta.className = 'alert alert-success';
+        tarjeta.role = 'alert',
+        tarjeta.innerHTML = `
+        <h4 class="alert-heading">Tus Movimeintos</h4>
+            <p>El plazo elegido es:$ ${item.duracion} días</p>
+            <p>Su capital: ${item.deposito}</p>
+            <p>Su capital:$ ${interes.toFixed(2)}</p>
+            <p>Monto Total:$ ${costoFinal.toFixed(2)}</p>
+            <p>TNA: ${tna.toFixed(2)}</p>
+            <hr>`;
+        contenedor.append(tarjeta)
+    }
 
+}
+//Elementos que usaré del DOM
+const btnPlazoFijo = document.getElementById('calcular');
 btnPlazoFijo.addEventListener('click', plazoFijo);
+let contenedorAlerta = document.querySelector('.alertas');
