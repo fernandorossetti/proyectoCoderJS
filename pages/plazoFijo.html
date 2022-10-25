@@ -59,7 +59,6 @@
 
 
                 <div id="subFooterModalSimuladorAdhoc">
-
                     <button type="button" id="calcular" value="Calcular" class="btn btn-primary">Calcular</button>
                     <a class="btn btn-primary" href="../index.html" role="button">Volver Menú</a>
                 </div>
@@ -69,61 +68,79 @@
 
         <div id="alertas"></div>
 
-        <div class="simuladorContent" id="resultadosCalculo" style="display: none;">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Canal</th>
-                            <th>Sucursal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Plazo</td>
-                            <td class="dest">
-                                35 días
-                            </td>
-                            <td class="dest">35 días</td>
-                        </tr>
-                        <tr>
-                            <td>Capital</td>
-                            <td class="dest">
-                                $5.000
-                            </td>
-                            <td class="dest">$5.000</td>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Movimientos</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Desea ver sus Movimientos
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnOk" class="btn btn-primary">Si</button>
+                        <button type="button" id="btnNot" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        </tr>
-                        <tr>
-                            <td>Intereses ganados</td>
-                            <td class="dest">
-                                $359,59
-                            </td>
-                            <td class="dest">$359,59</td>
-                        </tr>
-                        <tr>
-                            <td>Monto total</td>
-                            <td class="dest">
-                                $5.359,59
-                            </td>
-                            <td class="dest">$5.359,59</td>
-                        </tr>
-                        <tr>
-                            <td>TNA</td>
-                            <td class="dest">
-                                75,00%
-                            </td>
-                            <td class="dest">75,00%</td>
-                        </tr>
-                        <tr>
-                            <td>TEA</td>
-                            <td class="dest">
-                                106,32%
-                            </td>
-                            <td class="dest">106,32%</td>
-                        </tr>
-                    </tbody>
-                </table>
-        </div>  
+        <div class="simuladorContent" id="resultadosCalculo" style="display: none;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Canal</th>
+                        <th>Sucursal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Plazo</td>
+                        <td class="dest">
+                            35 días
+                        </td>
+                        <td class="dest">35 días</td>
+                    </tr>
+                    <tr>
+                        <td>Capital</td>
+                        <td class="dest">
+                            $5.000
+                        </td>
+                        <td class="dest">$5.000</td>
+
+                    </tr>
+                    <tr>
+                        <td>Intereses ganados</td>
+                        <td class="dest">
+                            $359,59
+                        </td>
+                        <td class="dest">$359,59</td>
+                    </tr>
+                    <tr>
+                        <td>Monto total</td>
+                        <td class="dest">
+                            $5.359,59
+                        </td>
+                        <td class="dest">$5.359,59</td>
+                    </tr>
+                    <tr>
+                        <td>TNA</td>
+                        <td class="dest">
+                            75,00%
+                        </td>
+                        <td class="dest">75,00%</td>
+                    </tr>
+                    <tr>
+                        <td>TEA</td>
+                        <td class="dest">
+                            106,32%
+                        </td>
+                        <td class="dest">106,32%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </main>
 
     <!-- Link Bootstrap -->
