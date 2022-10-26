@@ -15,22 +15,24 @@ const plazosFijos = [
 ]
 
 //Elementos que usaré del DOM
-const btnPlazoFijo = document.getElementById('calcular'),
+const btnCalcular = document.getElementById('calcular'),
     contenedorAlerta = document.getElementById('alertas'),
     btnOk = document.getElementById('btnOk'),
     btnNot = document.getElementById('btnNot'),
     modalEl = document.getElementById('exampleModal'),
     modal = new bootstrap.Modal(modalEl),
+    btnMovimientos = document.getElementById('movimientos'),
     alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 
-btnPlazoFijo.addEventListener('click', plazoFijo);
 
 function plazoFijo() {
     // Pedir datos y guardarlos al Array
     let ingresoCapital = document.getElementById('capitalAInvertir').value;
     let plazoCapital = document.getElementById('txtPlazoEnDias').value;
 
-    if (ingresoCapital >= 1000 && plazoCapital >= 30 && plazoCapital <= 365) {
+    if (ingresoCapital == '' || plazoCapital == '') {
+        alertaDanger('No puede haber un campo vacio', 'danger');
+    } else if (ingresoCapital >= 1000 && plazoCapital >= 30 && plazoCapital <= 365) {
         let datos = [
             ingresoCapital,
             plazoCapital
@@ -42,11 +44,11 @@ function plazoFijo() {
 
         ocultarMenu();
         alerta(plazosFijos, contenedorAlerta);
-
+        modal.show();      
     } else {
         alertaDanger('Uno de los valores es erroneo, por favor vuelva a ingresarlos.', 'danger');
-        limpiarCampos();
     }
+
 }
 
 function limpiarCampos() {
@@ -56,7 +58,85 @@ function limpiarCampos() {
     }
 }
 
-// No lo veo necesario ya que lo hago mostrar.
+function ocultarMenu() {
+    const formulario = document.getElementById('contenidoInternaLayout');
+    formulario.style.display = 'none';
+}
+
+function mostrarMenu() {
+    const formulario = document.getElementById('contenidoInternaLayout');
+    formulario.style.display = 'inline';
+}
+
+function alerta(array, contenedor) {
+    contenedor.innerHTML = ''
+    for (const item of array) {
+        let tna = 75 / 100;
+        let costoFinal = item.deposito * (1 + tna * (item.duracion / 365));
+        let interes = costoFinal - item.deposito;
+        let tarjeta = document.createElement('div');
+        tarjeta.className = 'alert alert-success text-aling-center';
+        tarjeta.role = 'alert',
+            tarjeta.innerHTML = `
+        <div>
+            
+            <p>El plazo elegido es: ${item.duracion} días</p>
+            <p>Su capital:$ ${item.deposito}</p>
+            <p>Su capital:$ ${interes.toFixed(2)}</p>
+            <p>Monto Total:$ ${costoFinal.toFixed(2)}</p>
+            <p>TNA: ${tna.toFixed(2)}</p>        
+        </div>
+            <hr>`;
+        contenedor.append(tarjeta)
+    }
+}
+
+function alertaDanger(message, type) {
+    var wrapper = document.createElement('div')
+    wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+
+    alertPlaceholder.append(wrapper)
+}
+
+function alertaPlazos(array, contenedor) {
+    if (plazosFijos != 0) {
+        contenedor.innerHTML = ''
+        array.forEach(item => {
+            let tarjeta = document.createElement('div');
+            tarjeta.className = 'alert alert-success';
+            tarjeta.role = 'alert',
+                tarjeta.innerHTML += `
+        <div>
+            <h4 class="alert-heading text-align-center">Tus Movimeintos</h4>
+            <p>El plazo elegido es: ${item.duracion} días</p>
+            <p>Su capital:$ ${item.deposito}</p>
+            <hr>
+            <a class="btn btn-primary" href="plazoFijo.html" role="button">Volver Menú</a>`;
+            contenedor.append(tarjeta)
+        });
+    }
+    alertaDanger('No posee movimientos cargados anteriormente', 'danger');
+}
+
+btnOk.addEventListener('click', () => {
+    modal.hide();
+    mostrarMenu();
+    limpiarCampos();
+    contenedorAlerta.style.display = 'none';
+    if (plazosFijos != 0) {
+        btnMovimientos.style.display = 'inline';
+    }
+});
+
+btnMovimientos.addEventListener('click', () => {
+    contenedorAlerta.style.display = 'block';
+});
+
+btnCalcular.addEventListener('click', () => {
+    plazoFijo();
+});
+
+// No requiero de estas funciones ya que lo hago mostrar.
 /*function mostrarPlazoFijo(array) {
     let info = '';
 
@@ -95,67 +175,3 @@ function verificarMovimientos() {
      alert('Gracias por su visita, vuelva pronto!');
 
 }*/
-
-function ocultarMenu() {
-    const formulario = document.getElementById('contenidoInternaLayout');
-    formulario.style.display = 'none';
-}
-
-
-    btnOk.addEventListener('click', (e) => {
-        e.preventDefault();
-        modal.hide();
-        alertaPlazos(plazosFijos, contenedorAlerta)
-    });
-
-
-function alerta(array, contenedor) {
-    contenedor.innerHTML = ''
-    for (const item of array) {
-        let tna = 75 / 100;
-        let costoFinal = item.deposito * (1 + tna * (item.duracion / 365));
-        let interes = costoFinal - item.deposito;
-        let tarjeta = document.createElement('div');
-        tarjeta.className = 'alert alert-success text-aling-center';
-        tarjeta.role = 'alert',
-            tarjeta.innerHTML = `
-        <div>
-            <h4 class="alert-heading">Tus Movimeintos</h4>
-            <p>El plazo elegido es: ${item.duracion} días</p>
-            <p>Su capital:$ ${item.deposito}</p>
-            <p>Su capital:$ ${interes.toFixed(2)}</p>
-            <p>Monto Total:$ ${costoFinal.toFixed(2)}</p>
-            <p>TNA: ${tna.toFixed(2)}</p>
-            <a class="btn btn-primary" href="plazoFijo.html" role="button">Volver Menú</a> 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Ver Movimientos
-            </button>       
-        </div>
-            <hr>`;
-        contenedor.append(tarjeta)
-    }
-}
-
-function alertaDanger(message, type) {
-    var wrapper = document.createElement('div')
-    wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
-
-    alertPlaceholder.append(wrapper)
-}
-
-function alertaPlazos(array, contenedor) {
-    contenedor.innerHTML = ''
-    array.forEach(item => {
-        let tarjeta = document.createElement('div');
-        tarjeta.className = 'alert alert-success';
-        tarjeta.role = 'alert',
-            tarjeta.innerHTML += `
-        <div>
-            <h4 class="alert-heading text-align-center">Tus Movimeintos</h4>
-            <p>El plazo elegido es: ${item.duracion} días</p>
-            <p>Su capital:$ ${item.deposito}</p>
-            <hr>
-            <a class="btn btn-primary" href="plazoFijo.html" role="button">Volver Menú</a>`;
-        contenedor.append(tarjeta)
-    });
-}
