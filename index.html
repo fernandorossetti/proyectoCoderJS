@@ -21,7 +21,7 @@
 <body>
     <header>
     <!-- Titulo -->
-    <h1>Banco JS</h1>
+    <h1 class="banco">Banco JS</h1>
 
     <!-- Descripción -->
     <p>Bienvenido a nuestro banco digital, donde podras efectuar operaciones como:</p>
@@ -32,18 +32,18 @@
     </ul>
     </header>
 
-    <h2>Empecemos</h2>
+    <h2 class="banco">Empecemos</h2>
     
-    <div id="botones" class="d-grid d-none gap-2">
+    <div id="botones" class="banco d-grid d-none gap-2">
         <button class="btn btn-primary" onclick="location.href='pages/cambioDivisas.html'" type="button">Conversor Divisas</button>
         <a class="btn btn-primary" href="pages/plazoFijo.html" role="button">Simulador PlazoFijo</a>
         <a class="btn btn-primary" href="pages/prestamos.html" role="button">Simulador Prestamos</a>
     </div>
 
-    <div id="pLogin" class="d-grid gap-2 d-md-block">
-        <p>Debe estar logeado para poder operar</p>
+    <div id="pLogin" class="banco d-grid gap-2 d-md-block">
+        <p class="banco">Debe estar logeado para poder operar</p>
         <a id="btnLogin" class="btn btn-primary" role="button">Login</a>
-    </div>>
+    </div>
 
     <script src="js/main.js"></script>
     <!-- Link Bootstrap -->

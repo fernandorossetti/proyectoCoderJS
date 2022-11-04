@@ -13,21 +13,11 @@ function guardarDatosDeLaBaseDeDatosLogin() {
 
 function cargarDatosInicialesDeLaBaseDeDatosLogin() {
     baseDeDatosLogin = {
-        admin: {
-            //Aquí se ponen los elementos por defecto del usuario
+        "admin":{
             contraseña: "abc"
         },
-        fernando: {
-            //Aquí se ponen los elementos por defecto del usuario
-            contraseña: "def"
-        },
-        98765434567: {
-            //Aquí se ponen los elementos por defecto del usuario
-            contraseña: "ghi",
-            puntaje: 0,
-        },
-    };
-}
+    }
+    }
 
 async function menúBásico() {
     opción_menúBásico = -1;
@@ -135,17 +125,24 @@ async function registrarNuevoUsuario() {
             if (!usuario) {
                 Swal.showValidationMessage("No hay usuario");
                 return false;
-            }
-            if (!contraseña) {
+            } else if (!contraseña) {
                 Swal.showValidationMessage("No hay contraseña");
                 return false;
-            }
+            } else if(usuario == baseDeDatosLogin.usuario){
+                Swal.showValidationMessage("Usuario ya registrado");
+                return false
+            }else{
+            Swal.fire({
+                icon: 'success',
+                title: 'Usuario registrado con éxito',
+                showConfirmButton: false,
+                timer: 2000
+              });
             baseDeDatosLogin[usuario] = {};
             baseDeDatosLogin[usuario].contraseña = contraseña;
-            baseDeDatosLogin[usuario].puntaje = 0;
             guardarDatosDeLaBaseDeDatosLogin();
-            return true;
-        },
+            // return true;
+        }},
     });
     switch (opción_registrarNuevoUsuario) {
         case 0:
