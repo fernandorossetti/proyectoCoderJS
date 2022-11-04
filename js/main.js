@@ -1,10 +1,212 @@
-const btnLogin = document.getElementById('login'),
-      header = document.getElementById('header'),
-      formLogin = document.getElementById('iniciar-sesion');
+baseDeDatosLogin = JSON.parse(localStorage.getItem("sistema-de-login"));
+
+let usuarioLogueado
 
 
-btnLogin.addEventListener('click', (e) =>{
-    e.preventDefault();
-    header.style.display = 'none';
-    formLogin.style.display = 'inline';
+if (!baseDeDatosLogin) {
+    cargarDatosInicialesDeLaBaseDeDatosLogin();
+}
+
+function guardarDatosDeLaBaseDeDatosLogin() {
+    localStorage.setItem("sistema-de-login", JSON.stringify(baseDeDatosLogin));
+}
+
+function cargarDatosInicialesDeLaBaseDeDatosLogin() {
+    baseDeDatosLogin = {
+        admin: {
+            //Aquí se ponen los elementos por defecto del usuario
+            contraseña: "abc"
+        },
+        fernando: {
+            //Aquí se ponen los elementos por defecto del usuario
+            contraseña: "def"
+        },
+        98765434567: {
+            //Aquí se ponen los elementos por defecto del usuario
+            contraseña: "ghi",
+            puntaje: 0,
+        },
+    };
+}
+
+async function menúBásico() {
+    opción_menúBásico = -1;
+    await swal.fire({
+        title: "Menú",
+        showConfirmButton: false,
+        html: `
+        <button class="swal2-confirm swal2-styled" onclick='opción_menúBásico=0;Swal.close()'>
+            Registrar nuevo usuario
+        </button>
+        <br>
+        <button class="swal2-confirm swal2-styled" onclick='opción_menúBásico=1;Swal.close()'>
+            Login
+        </button>
+        `,
+    });
+    switch (opción_menúBásico) {
+        case 0:
+            registrarNuevoUsuario();
+            break;
+        case 1:
+            login();
+            break;
+        default:
+            await menúBásico();
+            break;
+    }
+}
+
+async function mostrarUsuariosPorTabla(...propiedades) {
+    if (!usuarioLogueado) {
+        return
+    }
+    let html = `
+  <table class="table table-light table-striped">
+    <theader>
+    <th>
+      Usuario
+    </th>
+  `;
+    if (propiedades[0] == "*") {
+        for (const usuario in baseDeDatosLogin) {
+            for (const propiedad in baseDeDatosLogin[usuario]) {
+                html += "<th>";
+                html += propiedad;
+                html += "</th>";
+            }
+            break;
+        }
+    } else {
+        for (const propiedad of propiedades) {
+            html += "<th>";
+            html += propiedad;
+            html += "</th>";
+        }
+    }
+    html += "</theader><tbody>";
+    for (const usuario in baseDeDatosLogin) {
+        html += "<tr>";
+        html += "<td>";
+        html += usuario;
+        html += "</td>";
+        if (propiedades[0] == "*") {
+            for (const propiedad in baseDeDatosLogin[usuario]) {
+                html += "<td>";
+                html += baseDeDatosLogin[usuario][propiedad];
+                html += "</td>";
+            }
+        } else {
+            for (const propiedad of propiedades) {
+                html += "<td>";
+                html += baseDeDatosLogin[usuario][propiedad];
+                html += "</td>";
+            }
+        }
+
+        html += "</tr>";
+    }
+    await swal.fire({
+        text: "Usuarios",
+        confirmButtonText: "Cerrar",
+        html,
+    });
+}
+
+async function registrarNuevoUsuario() {
+    opción_registrarNuevoUsuario = -1;
+    await swal.fire({
+        title: "Registrar",
+        showConfirmButton: false,
+        html: `
+        <input class="swal2-input" placeholder="Usuario" id="usuario">
+        <input type="password" class="swal2-input" placeholder="Contraseña" id="contraseña">
+        <br>
+        <button class="swal2-confirm swal2-styled" onclick='opción_registrarNuevoUsuario=0;Swal.clickConfirm()'>
+            Crear
+        </button>
+        <button class="swal2-confirm swal2-styled" onclick='opción_registrarNuevoUsuario=1;Swal.close()'>
+            Cancelar
+        </button>
+        `,
+        preConfirm: () => {
+            let usuario = document.getElementById("usuario").value;
+            let contraseña = document.getElementById("contraseña").value;
+            if (!usuario) {
+                Swal.showValidationMessage("No hay usuario");
+                return false;
+            }
+            if (!contraseña) {
+                Swal.showValidationMessage("No hay contraseña");
+                return false;
+            }
+            baseDeDatosLogin[usuario] = {};
+            baseDeDatosLogin[usuario].contraseña = contraseña;
+            baseDeDatosLogin[usuario].puntaje = 0;
+            guardarDatosDeLaBaseDeDatosLogin();
+            return true;
+        },
+    });
+    switch (opción_registrarNuevoUsuario) {
+        case 0:
+            menúBásico();
+            break;
+        case 1:
+            menúBásico();
+            break;
+        default:
+            menúBásico();
+            break;
+    }
+}
+
+async function login() {
+    await swal.fire({
+        title: "Bienvenido",
+        confirmButtonText: "Login",
+        html: `
+        <div style="margin:5px">
+            <input class="swal2-input" placeholder="usuario" id="usuario">
+            <input type="password" class="swal2-input" placeholder="contraseña" id="contraseña">
+        </div>
+        `,
+        preConfirm: () => {
+            let btnOperadores = document.getElementById('botones');
+            let parrafo = document.getElementById('pLogin');
+            let usuario = document.getElementById("usuario").value;
+            let contraseña = document.getElementById("contraseña").value;
+            if (!usuario) {
+                Swal.showValidationMessage("No hay usuario");
+                return false;
+            }
+            if (!contraseña) {
+                Swal.showValidationMessage("No hay contraseña");
+                return false;
+            }
+            let datos = baseDeDatosLogin[usuario];
+            if (!datos) {
+                Swal.showValidationMessage("El usuario no existe");
+                return false;
+            }
+            if (datos.contraseña != contraseña) {
+                Swal.showValidationMessage("Contraseña incorrecta");
+                return false;
+            }
+            usuarioLogueado = datos;
+            Swal.fire({
+                icon: 'success',
+                title: 'Bienvenido '+usuario+' es hora de operar',
+                showConfirmButton: false,
+                timer: 3000
+              });
+            btnOperadores.className = 'd-md-block';
+            parrafo.className = "d-none";
+        },
+    });
+}
+
+const btnLogin = document.getElementById('btnLogin');
+
+btnLogin.addEventListener('click', () => {
+    menúBásico();
 })
