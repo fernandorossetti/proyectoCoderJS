@@ -1,3 +1,10 @@
+const btnLogin = document.getElementById('btnLogin'),
+    btnLogout = document.getElementById('btnLogout'),
+    btnOperadores = document.getElementById('botones'),
+    div = document.getElementById('logOut'),
+    parrafo = document.getElementById('pLogin');
+
+
 baseDeDatosLogin = JSON.parse(localStorage.getItem("sistema-de-login"));
 
 let usuarioLogueado
@@ -13,11 +20,36 @@ function guardarDatosDeLaBaseDeDatosLogin() {
 
 function cargarDatosInicialesDeLaBaseDeDatosLogin() {
     baseDeDatosLogin = {
-        "admin":{
+        "admin": {
             contraseña: "abc"
         },
     }
+}
+
+function saludar(usuario) {
+    nombreUsuario.innerHTML = `Bienvenido/a, <span>${usuario}</span>`
+}
+
+//Limpiar los storages
+function borrarDatos() {
+    localStorage.clear();
+    sessionStorage.clear();
+}
+
+function recuperarUsuario(baseDeDatosLogin) {
+    let usuarioEnStorage = JSON.parse(baseDeDatosLogin.getItem(''));
+    return usuarioEnStorage;
+}
+
+function estaLogueado(usuario) {
+    if (usuario) {
+        btnLogout.className = 'justify-content-md-end d-block';
+        nombreUsuario.className = 'text-end fw-bold d-block';
+        saludar(usuario);
+        btnOperadores.className = 'banco d-grid gap-2 d-md-block';
+        parrafo.className = "d-none";
     }
+}
 
 async function menúBásico() {
     opción_menúBásico = -1;
@@ -128,24 +160,31 @@ async function registrarNuevoUsuario() {
             } else if (!contraseña) {
                 Swal.showValidationMessage("No hay contraseña");
                 return false;
-            } else if(usuario == baseDeDatosLogin.usuario){
+            } else if (usuario == baseDeDatosLogin.usuario && contraseña == baseDeDatosLogin.contraseña) {
                 Swal.showValidationMessage("Usuario ya registrado");
                 return false
-            }else{
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Usuario registrado con éxito',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                baseDeDatosLogin[usuario] = {};
+                baseDeDatosLogin[usuario].contraseña = contraseña;
+                guardarDatosDeLaBaseDeDatosLogin();
+                // return true;
+            }
+        },
+    });
+    switch (opción_registrarNuevoUsuario) {
+        case 0:
             Swal.fire({
                 icon: 'success',
                 title: 'Usuario registrado con éxito',
                 showConfirmButton: false,
                 timer: 2000
-              });
-            baseDeDatosLogin[usuario] = {};
-            baseDeDatosLogin[usuario].contraseña = contraseña;
-            guardarDatosDeLaBaseDeDatosLogin();
-            // return true;
-        }},
-    });
-    switch (opción_registrarNuevoUsuario) {
-        case 0:
+            });
             menúBásico();
             break;
         case 1:
@@ -168,8 +207,6 @@ async function login() {
         </div>
         `,
         preConfirm: () => {
-            let btnOperadores = document.getElementById('botones');
-            let parrafo = document.getElementById('pLogin');
             let usuario = document.getElementById("usuario").value;
             let contraseña = document.getElementById("contraseña").value;
             if (!usuario) {
@@ -192,18 +229,45 @@ async function login() {
             usuarioLogueado = datos;
             Swal.fire({
                 icon: 'success',
-                title: 'Bienvenido '+usuario+' es hora de operar',
+                title: 'Bienvenido ' + usuario + ' es hora de operar',
                 showConfirmButton: false,
                 timer: 3000
-              });
-            btnOperadores.className = 'd-md-block';
+            });
+            btnLogout.className = 'justify-content-md-end d-block';
+            nombreUsuario.className = 'text-end fw-bold d-block';
+            saludar(usuario);
+            btnOperadores.className = 'banco d-grid gap-2 d-md-block';
             parrafo.className = "d-none";
         },
     });
 }
 
-const btnLogin = document.getElementById('btnLogin');
+window.onload = () => estaLogueado(recuperarUsuario(localStorage));
 
 btnLogin.addEventListener('click', () => {
     menúBásico();
+});
+
+btnLogout.addEventListener('click', (e) => {
+    e.preventDefault();
+    Swal.fire({
+        title: 'Estas seguro?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Éxitos',
+                'Espero te haya gustado Profe',
+                'success'
+            );
+            borrarDatos();
+            btnOperadores.className = 'd-none';
+            parrafo.className = "banco d-grid gap-2 d-md-block";
+            div.className = "d-none";
+        }
+    });
 })
