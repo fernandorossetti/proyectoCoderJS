@@ -1,46 +1,54 @@
+// Elementos que uso en el DOM.
 const btnLogin = document.getElementById('btnLogin'),
     btnLogout = document.getElementById('btnLogout'),
     btnOperadores = document.getElementById('botones'),
     div = document.getElementById('logOut'),
     parrafo = document.getElementById('pLogin');
 
-
-baseDeDatosLogin = JSON.parse(localStorage.getItem("sistema-de-login"));
-
+// Variable para enlazar al momento de registrar un usuario.
 let usuarioLogueado
 
+// Creando mi base de datos.
+baseDeDatosLogin = JSON.parse(localStorage.getItem("sistema-de-login"));
 
+// Si no hay datos cargados en el localStorage usa los que esta/n declarados en dicha función. 
 if (!baseDeDatosLogin) {
     cargarDatosInicialesDeLaBaseDeDatosLogin();
 }
 
+// Inicio de Funciones comunes y asíncronas.
+
+// Guarda datos en el LocalStorage.
 function guardarDatosDeLaBaseDeDatosLogin() {
     localStorage.setItem("sistema-de-login", JSON.stringify(baseDeDatosLogin));
 }
 
+// Carga datos.
 function cargarDatosInicialesDeLaBaseDeDatosLogin() {
     baseDeDatosLogin = {
-        "admin": {
-            contraseña: "abc"
-        },
+        usuario: 'fernando',
+        contraseña: "3567"
     }
 }
 
+// Saludo al inicar sesión.
 function saludar(usuario) {
-    nombreUsuario.innerHTML = `Bienvenido/a, <span>${usuario}</span>`
+    nombreUsuario.innerHTML = `Bienvenido/a, <span>${baseDeDatosLogin.usuario}</span>`
 }
 
-//Limpiar los storages
+// Limpiar los storages
 function borrarDatos() {
     localStorage.clear();
     sessionStorage.clear();
 }
 
-function recuperarUsuario(baseDeDatosLogin) {
-    let usuarioEnStorage = JSON.parse(baseDeDatosLogin.getItem(''));
+// Recupera datos del Local en caso de hacer reload y no tengas que volver a inicar sesión.
+function recuperarUsuario(storage) {
+    let usuarioEnStorage = JSON.parse(storage.getItem("sistema-de-login"));
     return usuarioEnStorage;
 }
 
+// Refresca los datos habilitados en caso de estar logueado.
 function estaLogueado(usuario) {
     if (usuario) {
         btnLogout.className = 'justify-content-md-end d-block';
@@ -51,7 +59,8 @@ function estaLogueado(usuario) {
     }
 }
 
-async function menúBásico() {
+// Menú de registro y login.
+async function menuBasico() {
     opción_menúBásico = -1;
     await swal.fire({
         title: "Menú",
@@ -79,64 +88,9 @@ async function menúBásico() {
     }
 }
 
-async function mostrarUsuariosPorTabla(...propiedades) {
-    if (!usuarioLogueado) {
-        return
-    }
-    let html = `
-  <table class="table table-light table-striped">
-    <theader>
-    <th>
-      Usuario
-    </th>
-  `;
-    if (propiedades[0] == "*") {
-        for (const usuario in baseDeDatosLogin) {
-            for (const propiedad in baseDeDatosLogin[usuario]) {
-                html += "<th>";
-                html += propiedad;
-                html += "</th>";
-            }
-            break;
-        }
-    } else {
-        for (const propiedad of propiedades) {
-            html += "<th>";
-            html += propiedad;
-            html += "</th>";
-        }
-    }
-    html += "</theader><tbody>";
-    for (const usuario in baseDeDatosLogin) {
-        html += "<tr>";
-        html += "<td>";
-        html += usuario;
-        html += "</td>";
-        if (propiedades[0] == "*") {
-            for (const propiedad in baseDeDatosLogin[usuario]) {
-                html += "<td>";
-                html += baseDeDatosLogin[usuario][propiedad];
-                html += "</td>";
-            }
-        } else {
-            for (const propiedad of propiedades) {
-                html += "<td>";
-                html += baseDeDatosLogin[usuario][propiedad];
-                html += "</td>";
-            }
-        }
-
-        html += "</tr>";
-    }
-    await swal.fire({
-        text: "Usuarios",
-        confirmButtonText: "Cerrar",
-        html,
-    });
-}
-
+// Registrar Usuario.
 async function registrarNuevoUsuario() {
-    opción_registrarNuevoUsuario = -1;
+    const registrarUsuario = -1;
     await swal.fire({
         title: "Registrar",
         showConfirmButton: false,
@@ -144,10 +98,10 @@ async function registrarNuevoUsuario() {
         <input class="swal2-input" placeholder="Usuario" id="usuario">
         <input type="password" class="swal2-input" placeholder="Contraseña" id="contraseña">
         <br>
-        <button class="swal2-confirm swal2-styled" onclick='opción_registrarNuevoUsuario=0;Swal.clickConfirm()'>
+        <button class="swal2-confirm swal2-styled" onclick='registrarUsuario=0;Swal.clickConfirm()'>
             Crear
         </button>
-        <button class="swal2-confirm swal2-styled" onclick='opción_registrarNuevoUsuario=1;Swal.close()'>
+        <button class="swal2-confirm swal2-styled" onclick='registrarUsuario=1;Swal.close()'>
             Cancelar
         </button>
         `,
@@ -170,32 +124,16 @@ async function registrarNuevoUsuario() {
                     showConfirmButton: false,
                     timer: 2000
                 });
-                baseDeDatosLogin[usuario] = {};
-                baseDeDatosLogin[usuario].contraseña = contraseña;
+                baseDeDatosLogin.usuario = usuario;
+                baseDeDatosLogin.contraseña = contraseña;
                 guardarDatosDeLaBaseDeDatosLogin();
-                // return true;
+                menuBasico();
             }
-        },
+        }
     });
-    switch (opción_registrarNuevoUsuario) {
-        case 0:
-            Swal.fire({
-                icon: 'success',
-                title: 'Usuario registrado con éxito',
-                showConfirmButton: false,
-                timer: 2000
-            });
-            menúBásico();
-            break;
-        case 1:
-            menúBásico();
-            break;
-        default:
-            menúBásico();
-            break;
-    }
 }
 
+// Iniciar sesión.
 async function login() {
     await swal.fire({
         title: "Bienvenido",
@@ -217,8 +155,8 @@ async function login() {
                 Swal.showValidationMessage("No hay contraseña");
                 return false;
             }
-            let datos = baseDeDatosLogin[usuario];
-            if (!datos) {
+            let datos = baseDeDatosLogin;
+            if (datos.usuario != usuario) {
                 Swal.showValidationMessage("El usuario no existe");
                 return false;
             }
@@ -231,7 +169,7 @@ async function login() {
                 icon: 'success',
                 title: 'Bienvenido ' + usuario + ' es hora de operar',
                 showConfirmButton: false,
-                timer: 3000
+                timer: 3000,
             });
             btnLogout.className = 'justify-content-md-end d-block';
             nombreUsuario.className = 'text-end fw-bold d-block';
@@ -242,10 +180,14 @@ async function login() {
     });
 }
 
+// Finalización de Funciones
+
+// Al refrescar la página si hay un usuario en el Local deja la página como esta y no vuelve al login.
 window.onload = () => estaLogueado(recuperarUsuario(localStorage));
 
+// Botones Login y Logout
 btnLogin.addEventListener('click', () => {
-    menúBásico();
+    menuBasico();
 });
 
 btnLogout.addEventListener('click', (e) => {
