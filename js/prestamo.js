@@ -59,6 +59,7 @@ function limpiarCampos() {
     for (let i = 0; i < elementos.length; i++) {
         elementos[i].value = '';
     }
+    select.value = "";
 }
 
 function ocultarMenu() {
@@ -75,99 +76,16 @@ function alerta(array, contenedor) {
     contenedor.innerHTML = ''
     for (const item of array) {
         let porcentajeInteres = parseFloat();
-        switch (item.meses) {
-            case 1:
-                porcentajeInteres = 0.25;
-                break;
-
-            case 2:
-                porcentajeInteres = 0.25;
-                break;
-
-            case 3:
-                porcentajeInteres = 0.25;
-                break;
-
-            case 4:
-                porcentajeInteres = 0.25;
-                break;
-
-            case 12:
-                porcentajeInteres = 0.25;
-                break;
-
-            case 13:
-                porcentajeInteres = 0.40;
-                break;
-
-            case 14:
-                porcentajeInteres = 0.40;
-                break;
-
-            case 15:
-                porcentajeInteres = 0.40;
-                break;
-
-            case 16:
-                porcentajeInteres = 0.40;
-                break;
-
-            case 17:
-                porcentajeInteres = 0.40;
-                break;
-
-            case 18:
-                porcentajeInteres = 0.55;
-                break;
-
-            case 19:
-                porcentajeInteres = 0.55;
-                break;
-
-            case 20:
-                porcentajeInteres = 0.55;
-                break;
-
-            case 21:
-                porcentajeInteres = 0.55;
-                break;
-
-            case 22:
-                porcentajeInteres = 0.55;
-                break;
-
-            case 23:
-                porcentajeInteres = 0.55;
-                break;
-
-
-            case 24:
-                porcentajeInteres = 0.55;
-                break;
-
-            case 25:
-                porcentajeInteres = 0.70;
-                break;
-
-            case 26:
-                porcentajeInteres = 0.80;
-                break;
-
-            case 27:
-                porcentajeInteres = 0.80;
-                break;
-
-            case 28:
-                porcentajeInteres = 0.80;
-                break;
-
-            case 29:
-                porcentajeInteres = 0.80;
-                break;
-
-            case 30:
-                porcentajeInteres = 0.80;
-                break;
+        if(item.meses <= 12){
+            porcentajeInteres = 0.25;
+        }else if(item.meses <= 24 ){
+            porcentajeInteres = 0.40;
+        }else if(item.meses <= 36){
+            porcentajeInteres = 0.60;
+        }else if(item.meses <= 48){
+            porcentajeInteres = 0.80;
+        }else{
+            porcentajeInteres= 0.95;
         }
         let interes = item.monto * porcentajeInteres;
         let total = item.monto + interes;
