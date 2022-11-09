@@ -1,98 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Link Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    
-        <!-- Titulo -->
-        <title>Prestamos</title>
-    </head>
-    
-    <body>
-    
-        <header class="p-3 text-bg-dark">
-            <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-center">
-                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                            <use xlink:href="#bootstrap"></use>
-                        </svg>
-                    </a>
-    
-                    <h1 class="nav col-12 col-lg-auto text-aling-center">
-                        Bienvenido a Banco JS
-                    </h1>
-                </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    <!-- Titulo -->
+    <title>Prestamos</title>
+</head>
+
+<body>
+
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+
+                <h1 class="nav col-12 col-lg-auto text-aling-center">
+                    Bienvenido a Banco JS
+                </h1>
             </div>
-        </header>
-    
-        <main>
-            <div class="col-md-9" id="contenidoInternaLayout">
-                <div id="titulo">
-                    <h1> Simulador Prestamos </h1>
-                </div>
-                <div id="liveAlertPlaceholder"></div>
-                <div class="simuladorContent">
-                    <form id="formulario" class="form-horizontal formu">
-                        <div class="formItems" style="padding:0; margin:0;">
-                            <div id="container_msgPF" style="display:none"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="formGroupInputLarge">Capital a invertir:</label>
-                                <input class="form-control" id="capitalAInvertir" maxlength="13" name="txtCapitalAInvertir"
-                                    type="text" value="">
-                                <span class="aclara">(Máximo $200.000)</span>
-                                <br><br>
-                                <label class="col-sm-2 control-label" for="formGroupInputLarge">Plazo (en Meses):</label>
-                                <input class="form-control" id="txtPlazo" maxlength="4" name="txtPlazoEnDias"
-                                    type="text" value="">
-                                <span class="aclara">(12-24-36-48-60)</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="col-md-9" id="contenidoInternaLayout">
+            <div id="titulo">
+                <h1> Simulador Prestamos </h1>
+            </div>
+            <div id="liveAlertPlaceholder"></div>
+            <div class="simuladorContent">
+                <form id="formulario" class="form-horizontal formu">
+                    <div class="formItems" style="padding:0; margin:0;">
+                        <div id="container_msgPF" style="display:none"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="formGroupInputLarge">Capital a invertir:</label>
+                            <input class="form-control" id="capitalAInvertir" maxlength="13" name="txtCapitalAInvertir"
+                                type="text" value="">
+                            <span class="aclara">(Máximo $200.000)</span>
+                            <br><br>
+                            <div>
+                                <label class="col-sm-2 control-label" for="formGroupInputLarge">Plazo en meses </label>
+                                <select class="form-select" id="plazo" name="plazo">
+                                    <option value="">Seleccioná el plazo</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                    <option value="31">31</option>
+                                    <option value="32">32</option>
+                                    <option value="33">33</option>
+                                    <option value="34">34</option>
+                                    <option value="35">35</option>
+                                    <option value="36">36</option>
+                                </select>
+                                <span class="aclara">(Máximo 36 meses)</span>
                             </div>
-                            <br>
                         </div>
-                    </form>
-                    <div id="divResultadosCalculo"></div>
-    
-    
-                    <div id="subFooterModalSimuladorAdhoc">
-                        <button type="button" id="calcular" value="Calcular" class="btn btn-primary">Calcular</button>
-                        <a class="btn btn-primary" href="../index.html" role="button">Volver Menú</a>
-                        <button type="button" id="movimientos" class="btn btn-primary" style="display: none;">Movimientos Anteriores</button>
+                        <br>
                     </div>
-                    <br>
+                </form>
+                <div id="divResultadosCalculo"></div>
+
+
+                <div id="subFooterModalSimuladorAdhoc">
+                    <button type="button" id="calcular" value="Calcular" class="btn btn-primary">Calcular</button>
+                    <a class="btn btn-primary" href="../index.html" role="button">Volver Menú</a>
+                    <button type="button" id="movimientos" class="btn btn-primary" style="display: none;">Movimientos
+                        Anteriores</button>
+                </div>
+                <br>
+            </div>
+        </div>
+
+        <div id="alertas"></div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="text-align-center modal-title fs-5" id="exampleModalLabel">Movimientos</h1>
+                    </div>
+                    <div class="modal-body">
+                        Desea realizar otra consulta?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnOk" class="btn btn-primary">Si</button>
+                        <button type="button" id="btnNot" onclick="location.href='../index.html'"
+                            class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    </div>
                 </div>
             </div>
-    
-            <div id="alertas"></div>
-    
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="text-align-center modal-title fs-5" id="exampleModalLabel">Movimientos</h1>
-                        </div>
-                        <div class="modal-body">
-                            Desea realizar otra consulta?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="btnOk"  class="btn btn-primary">Si</button>
-                            <button type="button" id="btnNot" onclick="location.href='../index.html'" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        </div>
-                    </div>
-                </div>
-            </div>    
-        </main>
-    
-        <!-- Link Bootstrap -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-            </script>
-    
-        <script type="text/javascript" src="../js/prestamo.js"></script>
-    
-    </body>
-    
-    </html>
+        </div>
+    </main>
+
+    <!-- Link Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+        </script>
+
+    <script type="text/javascript" src="../js/prestamo.js"></script>
+
+</body>
+
+</html>

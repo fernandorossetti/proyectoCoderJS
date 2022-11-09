@@ -23,18 +23,21 @@ const btnCalcular = document.getElementById('calcular'),
     modal = new bootstrap.Modal(modalEl),
     btnAbrirModal = document.getElementById('abrirModal'),
     btnMovimientos = document.getElementById('movimientos'),
+    select = document.getElementById('plazo'),
     alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 
 function prestamo() {
-    let meses = [12, 24, 36, 48, 60];
+    const meses = select.selectedIndex;
+    if (meses === -1) return; // Esto es cuando no hay elementos
+    const opcionSeleccionada = select.options[meses];
     // Pedir datos y guardarlos al Array
     let ingresoCapital = document.getElementById('capitalAInvertir').value;
-    let plazoCapital = document.getElementById('txtPlazo').value;
+    let plazoCapital = opcionSeleccionada.value;
     if (ingresoCapital == '' || plazoCapital == '') {
         alertaDanger('No puede haber un campo vacio', 'danger');
     } //Aclaro que lo comentado en el IF es una filtro que lo pude hacer andar asi, de haber otra manera, que de seguro lo hay y no me doy cuenta, les agradecería la recomendación.
-    else if (ingresoCapital >= 200000 || plazoCapital != meses[0] && plazoCapital != meses[1] && plazoCapital != meses[2] && plazoCapital != meses[3] && plazoCapital != meses[4]) {
-        alertaDanger('Uno de los valores es erroneo, por favor revisar y corregirlo.', 'danger');
+    else if (ingresoCapital >= 200000) {
+        alertaDanger('El monto supero el máximo, por favor corríjelo', 'danger');
         //limpiarCampos();
     } else {
         let datos = [
@@ -73,23 +76,96 @@ function alerta(array, contenedor) {
     for (const item of array) {
         let porcentajeInteres = parseFloat();
         switch (item.meses) {
+            case 1:
+                porcentajeInteres = 0.25;
+                break;
+
+            case 2:
+                porcentajeInteres = 0.25;
+                break;
+
+            case 3:
+                porcentajeInteres = 0.25;
+                break;
+
+            case 4:
+                porcentajeInteres = 0.25;
+                break;
+
             case 12:
                 porcentajeInteres = 0.25;
                 break;
 
-            case 24:
+            case 13:
                 porcentajeInteres = 0.40;
                 break;
 
-            case 36:
+            case 14:
+                porcentajeInteres = 0.40;
+                break;
+
+            case 15:
+                porcentajeInteres = 0.40;
+                break;
+
+            case 16:
+                porcentajeInteres = 0.40;
+                break;
+
+            case 17:
+                porcentajeInteres = 0.40;
+                break;
+
+            case 18:
                 porcentajeInteres = 0.55;
                 break;
 
-            case 48:
+            case 19:
+                porcentajeInteres = 0.55;
+                break;
+
+            case 20:
+                porcentajeInteres = 0.55;
+                break;
+
+            case 21:
+                porcentajeInteres = 0.55;
+                break;
+
+            case 22:
+                porcentajeInteres = 0.55;
+                break;
+
+            case 23:
+                porcentajeInteres = 0.55;
+                break;
+
+
+            case 24:
+                porcentajeInteres = 0.55;
+                break;
+
+            case 25:
                 porcentajeInteres = 0.70;
                 break;
 
-            case 60:
+            case 26:
+                porcentajeInteres = 0.80;
+                break;
+
+            case 27:
+                porcentajeInteres = 0.80;
+                break;
+
+            case 28:
+                porcentajeInteres = 0.80;
+                break;
+
+            case 29:
+                porcentajeInteres = 0.80;
+                break;
+
+            case 30:
                 porcentajeInteres = 0.80;
                 break;
         }
@@ -125,14 +201,14 @@ btnCalcular.addEventListener('click', () => {
 
 btnOk.addEventListener('click', () => {
     modal.hide();
-   mostrarMenu();
-   limpiarCampos();
-   contenedorAlerta.style.display = 'none';
-   if(prestamos != 0){
-    btnMovimientos.style.display='inline';
-   }
+    mostrarMenu();
+    limpiarCampos();
+    contenedorAlerta.style.display = 'none';
+    if (prestamos != 0) {
+        btnMovimientos.style.display = 'inline';
+    }
 });
 
-btnMovimientos.addEventListener('click', ()=> {
-    contenedorAlerta.style.display='block';
+btnMovimientos.addEventListener('click', () => {
+    contenedorAlerta.style.display = 'block';
 });
