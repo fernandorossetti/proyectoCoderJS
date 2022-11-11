@@ -22,7 +22,6 @@ const btnCalcular = document.getElementById('calcular'),
     modalEl = document.getElementById('exampleModal'),
     modal = new bootstrap.Modal(modalEl),
     btnAbrirModal = document.getElementById('abrirModal'),
-    btnMovimientos = document.getElementById('movimientos'),
     select = document.getElementById('plazo'),
     alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 
@@ -45,12 +44,10 @@ function prestamo() {
             plazoCapital
         ];
         const presta = new Prestamo(datos[0], datos[1]);
-
         prestamos.push(presta);
         presta.idPresta(prestamos);
         ocultarMenu();
         alerta(prestamos, contenedorAlerta);
-        modal.show();
     }
 }
 
@@ -73,19 +70,19 @@ function mostrarMenu() {
 }
 
 function alerta(array, contenedor) {
-    contenedor.innerHTML = ''
+    contenedor.innerHTML = '';
     for (const item of array) {
         let porcentajeInteres = parseFloat();
-        if(item.meses <= 12){
+        if (item.meses <= 12) {
             porcentajeInteres = 0.25;
-        }else if(item.meses <= 24 ){
+        } else if (item.meses <= 24) {
             porcentajeInteres = 0.40;
-        }else if(item.meses <= 36){
+        } else if (item.meses <= 36) {
             porcentajeInteres = 0.60;
-        }else if(item.meses <= 48){
+        } else if (item.meses <= 48) {
             porcentajeInteres = 0.80;
-        }else{
-            porcentajeInteres= 0.95;
+        } else {
+            porcentajeInteres = 0.95;
         }
         let interes = item.monto * porcentajeInteres;
         let total = item.monto + interes;
@@ -100,6 +97,7 @@ function alerta(array, contenedor) {
             <p>El plazo elegido es: ${item.meses} meses</p>
             <p>El total a devolver:$ ${total.toFixed(2)}</p>
             <p>El capital mensual a entregar:$ ${pagoMensual.toFixed(2)}</p>
+            <a class="btn btn-primary" href="prestamos.html" role="button">Volver Menú</a>
         </div>
             <hr>`;
         contenedor.append(tarjeta)
@@ -115,18 +113,4 @@ function alertaDanger(message, type) {
 
 btnCalcular.addEventListener('click', () => {
     prestamo();
-});
-
-btnOk.addEventListener('click', () => {
-    modal.hide();
-    mostrarMenu();
-    limpiarCampos();
-    contenedorAlerta.style.display = 'none';
-    if (prestamos != 0) {
-        btnMovimientos.style.display = 'inline';
-    }
-});
-
-btnMovimientos.addEventListener('click', () => {
-    contenedorAlerta.style.display = 'block';
 });

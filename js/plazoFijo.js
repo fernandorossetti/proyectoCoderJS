@@ -24,6 +24,15 @@ const btnCalcular = document.getElementById('calcular'),
     btnMovimientos = document.getElementById('movimientos'),
     alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 
+function guardarDatos(storage, deposito, duracion) {
+
+    const plazo = {
+        "ingresoCapital": deposito,
+        "plazoCapital": duracion
+    }
+
+    storage.setItem('plazosFijos', JSON.stringify(plazo))
+}
 
 function plazoFijo() {
     // Pedir datos y guardarlos al Array
@@ -38,13 +47,11 @@ function plazoFijo() {
             plazoCapital
         ];
         const plazo = new PlazoFijo(datos[0], datos[1]);
-
         plazosFijos.push(plazo);
         plazo.idPlazo(plazosFijos);
-
         ocultarMenu();
-        alerta(plazosFijos, contenedorAlerta);
-        modal.show();      
+        alerta(plazosFijos);
+        guardarDatos(sessionStorage, ingresoCapital, plazoCapital);
     } else {
         alertaDanger('Uno de los valores es erroneo, por favor vuelva a ingresarlos.', 'danger');
     }
@@ -68,26 +75,26 @@ function mostrarMenu() {
     formulario.style.display = 'inline';
 }
 
-function alerta(array, contenedor) {
-    contenedor.innerHTML = ''
+async function alerta(array) {
     for (const item of array) {
         let tna = 75 / 100;
         let costoFinal = item.deposito * (1 + tna * (item.duracion / 365));
         let interes = costoFinal - item.deposito;
-        let tarjeta = document.createElement('div');
-        tarjeta.className = 'alert alert-success text-aling-center';
-        tarjeta.role = 'alert',
-            tarjeta.innerHTML = `
-        <div>
-            
+        await swal.fire({
+            title: "Operación Exitosa",
+            showConfirmButton: false,
+            html: `
+        <div>  
             <p>El plazo elegido es: ${item.duracion} días</p>
             <p>Su capital:$ ${item.deposito}</p>
-            <p>Su capital:$ ${interes.toFixed(2)}</p>
+            <p>Su interes:$ ${interes.toFixed(2)}</p>
             <p>Monto Total:$ ${costoFinal.toFixed(2)}</p>
-            <p>TNA: ${tna.toFixed(2)}</p>        
+            <p>TNA: ${tna.toFixed(2)}</p>
+            <a class="swal2-confirm swal2-styled" href="plazoFijo.html" role="button">Volver Menú</a>  
         </div>
-            <hr>`;
-        contenedor.append(tarjeta)
+            <hr>
+        `,
+        });
     }
 }
 
@@ -98,39 +105,35 @@ function alertaDanger(message, type) {
     alertPlaceholder.append(wrapper)
 }
 
-function alertaPlazos(array, contenedor) {
-    if (plazosFijos != 0) {
-        contenedor.innerHTML = ''
-        array.forEach(item => {
-            let tarjeta = document.createElement('div');
-            tarjeta.className = 'alert alert-success';
-            tarjeta.role = 'alert',
-                tarjeta.innerHTML += `
-        <div>
-            <h4 class="alert-heading text-align-center">Tus Movimeintos</h4>
-            <p>El plazo elegido es: ${item.duracion} días</p>
-            <p>Su capital:$ ${item.deposito}</p>
-            <hr>
-            <a class="btn btn-primary" href="plazoFijo.html" role="button">Volver Menú</a>`;
-            contenedor.append(tarjeta)
-        });
-    }
-    alertaDanger('No posee movimientos cargados anteriormente', 'danger');
-}
+btnMovimientos.addEventListener('click', () => {
+    ocultarMenu();
+    let plazosEnStorage = JSON.parse(sessionStorage.getItem('plazosFijos'));
+    let tna = 75 / 100;
+    let costoFinal = plazosEnStorage.ingresoCapital * (1 + tna * (plazosEnStorage.plazoCapital / 365));
+    let interes = costoFinal - plazosEnStorage.ingresoCapital;
+    swal.fire({
+        title: "Movimiento Anterior",
+        showConfirmButton: false,
+        html: `
+<div>  
+    <p>El plazo elegido es: ${plazosEnStorage.plazoCapital} días</p>
+    <p>Su capital:$ ${plazosEnStorage.ingresoCapital}</p>
+    <p>Su interes:$ ${interes.toFixed(2)}</p>
+    <p>Monto Total:$ ${costoFinal.toFixed(2)}</p>
+    <p>TNA: ${tna.toFixed(2)}</p>
+    <a class="swal2-confirm swal2-styled" href="plazoFijo.html" role="button">Volver Menú</a>  
+</div>
+    <hr>
+`,
+    });
+});
 
-btnOk.addEventListener('click', () => {
-    modal.hide();
-    mostrarMenu();
-    limpiarCampos();
-    contenedorAlerta.style.display = 'none';
-    if (plazosFijos != 0) {
+window.onload = () => {
+    let plazosEnStorage = JSON.parse(sessionStorage.getItem('plazosFijos'));
+    if (plazosEnStorage) {
         btnMovimientos.style.display = 'inline';
     }
-});
-
-btnMovimientos.addEventListener('click', () => {
-    contenedorAlerta.style.display = 'block';
-});
+}
 
 btnCalcular.addEventListener('click', () => {
     plazoFijo();

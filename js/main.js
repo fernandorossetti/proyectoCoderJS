@@ -61,21 +61,21 @@ function estaLogueado(usuario) {
 
 // Menú de registro y login.
 async function menuBasico() {
-    opción_menúBásico = -1;
+    opcionMenuBasico = -1;
     await swal.fire({
         title: "Menú",
         showConfirmButton: false,
         html: `
-        <button class="swal2-confirm swal2-styled" onclick='opción_menúBásico=0;Swal.close()'>
+        <button class="swal2-confirm swal2-styled" onclick='opcionMenuBasico=0;Swal.close()'>
             Registrar nuevo usuario
         </button>
         <br>
-        <button class="swal2-confirm swal2-styled" onclick='opción_menúBásico=1;Swal.close()'>
+        <button class="swal2-confirm swal2-styled" onclick='opcionMenuBasico=1;Swal.close()'>
             Login
         </button>
         `,
     });
-    switch (opción_menúBásico) {
+    switch (opcionMenuBasico) {
         case 0:
             registrarNuevoUsuario();
             break;
@@ -83,14 +83,14 @@ async function menuBasico() {
             login();
             break;
         default:
-            await menúBásico();
+            await menuBasico();
             break;
     }
 }
 
 // Registrar Usuario.
 async function registrarNuevoUsuario() {
-    const registrarUsuario = -1;
+    registrarUsuario = -1;
     await swal.fire({
         title: "Registrar",
         showConfirmButton: false,
@@ -129,7 +129,7 @@ async function registrarNuevoUsuario() {
                 guardarDatosDeLaBaseDeDatosLogin();
                 menuBasico();
             }
-        }
+        },
     });
 }
 
