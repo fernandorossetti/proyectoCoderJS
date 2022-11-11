@@ -1,3 +1,4 @@
+// Clase Principal
 class Prestamo {
     constructor(monto, meses, id) {
         this.monto = parseInt(monto);
@@ -10,6 +11,7 @@ class Prestamo {
     }
 }
 
+// Constuctor donde se alojan los datos
 const prestamos = [
 
 ]
@@ -19,12 +21,11 @@ const btnCalcular = document.getElementById('calcular'),
     contenedorAlerta = document.getElementById('alertas'),
     btnOk = document.getElementById('btnOk'),
     btnNot = document.getElementById('btnNot'),
-    modalEl = document.getElementById('exampleModal'),
-    modal = new bootstrap.Modal(modalEl),
-    btnAbrirModal = document.getElementById('abrirModal'),
     select = document.getElementById('plazo'),
     alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 
+// Comienzo de Funciones
+// Funcion Principal
 function prestamo() {
     const meses = select.selectedIndex;
     if (meses === -1) return; // Esto es cuando no hay elementos
@@ -51,6 +52,7 @@ function prestamo() {
     }
 }
 
+// Limpiar elemenos del HTML
 function limpiarCampos() {
     let elementos = document.getElementsByTagName('input');
     for (let i = 0; i < elementos.length; i++) {
@@ -69,6 +71,7 @@ function mostrarMenu() {
     formulario.style.display = 'inline';
 }
 
+// Muestras el resultado en forma de alerta
 function alerta(array, contenedor) {
     contenedor.innerHTML = '';
     for (const item of array) {
@@ -110,7 +113,11 @@ function alertaDanger(message, type) {
 
     alertPlaceholder.append(wrapper)
 }
+// Finalizan las funciones
 
+// Botontes
+
+// Boton Principal
 btnCalcular.addEventListener('click', () => {
     prestamo();
 });

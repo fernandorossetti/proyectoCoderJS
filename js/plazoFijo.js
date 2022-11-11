@@ -1,3 +1,4 @@
+// Clase Principal
 class PlazoFijo {
     constructor(deposito, duracion, id) {
         this.deposito = parseFloat(deposito);
@@ -10,6 +11,7 @@ class PlazoFijo {
     }
 }
 
+// Constuctor donde se alojan los datos
 const plazosFijos = [
 
 ]
@@ -19,21 +21,21 @@ const btnCalcular = document.getElementById('calcular'),
     contenedorAlerta = document.getElementById('alertas'),
     btnOk = document.getElementById('btnOk'),
     btnNot = document.getElementById('btnNot'),
-    modalEl = document.getElementById('exampleModal'),
-    modal = new bootstrap.Modal(modalEl),
     btnMovimientos = document.getElementById('movimientos'),
     alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 
-function guardarDatos(storage, deposito, duracion) {
+// Comienzo de Funciones
 
+// Guardar Datos en el Storage
+function guardarDatos(storage, deposito, duracion) {
     const plazo = {
         "ingresoCapital": deposito,
         "plazoCapital": duracion
     }
-
     storage.setItem('plazosFijos', JSON.stringify(plazo))
 }
 
+// Funcion Principal
 function plazoFijo() {
     // Pedir datos y guardarlos al Array
     let ingresoCapital = document.getElementById('capitalAInvertir').value;
@@ -55,15 +57,16 @@ function plazoFijo() {
     } else {
         alertaDanger('Uno de los valores es erroneo, por favor vuelva a ingresarlos.', 'danger');
     }
-
 }
 
+// Limpiar elemenos del HTML
 function limpiarCampos() {
     let elementos = document.getElementsByTagName('input');
     for (let i = 0; i < elementos.length; i++) {
         elementos[i].value = '';
     }
 }
+
 
 function ocultarMenu() {
     const formulario = document.getElementById('contenidoInternaLayout');
@@ -75,6 +78,7 @@ function mostrarMenu() {
     formulario.style.display = 'inline';
 }
 
+// Muestras el resultado en forma de alerta
 async function alerta(array) {
     for (const item of array) {
         let tna = 75 / 100;
@@ -104,7 +108,11 @@ function alertaDanger(message, type) {
 
     alertPlaceholder.append(wrapper)
 }
+// Finalizan las funciones
 
+// Botontes
+
+// Muestra Movimientos Anteriores
 btnMovimientos.addEventListener('click', () => {
     ocultarMenu();
     let plazosEnStorage = JSON.parse(sessionStorage.getItem('plazosFijos'));
@@ -128,13 +136,17 @@ btnMovimientos.addEventListener('click', () => {
     });
 });
 
+// Boton Principal
+btnCalcular.addEventListener('click', () => {
+    plazoFijo();
+});
+// Finaliza Botones
+
+
+// Se fija si hay un dato el el Storage muesta el boton "Movimientos" para ver movimiento anterior
 window.onload = () => {
     let plazosEnStorage = JSON.parse(sessionStorage.getItem('plazosFijos'));
     if (plazosEnStorage) {
         btnMovimientos.style.display = 'inline';
     }
 }
-
-btnCalcular.addEventListener('click', () => {
-    plazoFijo();
-});

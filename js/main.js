@@ -111,24 +111,22 @@ async function registrarNuevoUsuario() {
             if (!usuario) {
                 Swal.showValidationMessage("No hay usuario");
                 return false;
-            } else if (!contraseña) {
+            } if (!contraseña) {
                 Swal.showValidationMessage("No hay contraseña");
                 return false;
-            } else if (usuario == baseDeDatosLogin.usuario && contraseña == baseDeDatosLogin.contraseña) {
+            } if (usuario == baseDeDatosLogin.usuario && contraseña == baseDeDatosLogin.contraseña) {
                 Swal.showValidationMessage("Usuario ya registrado");
                 return false
-            } else {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Usuario registrado con éxito',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                baseDeDatosLogin.usuario = usuario;
-                baseDeDatosLogin.contraseña = contraseña;
-                guardarDatosDeLaBaseDeDatosLogin();
-                menuBasico();
             }
+            baseDeDatosLogin.usuario = usuario;
+            baseDeDatosLogin.contraseña = contraseña;
+            guardarDatosDeLaBaseDeDatosLogin();
+            Swal.fire({
+                icon: 'success',
+                title: 'Usuario registrado con éxito',
+                showConfirmButton: false,
+                timer: 2000
+            });
         },
     });
 }
@@ -193,7 +191,7 @@ btnLogin.addEventListener('click', () => {
 btnLogout.addEventListener('click', (e) => {
     e.preventDefault();
     Swal.fire({
-        title: 'Estas seguro?',
+        title: 'Estas seguro/a?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -212,4 +210,5 @@ btnLogout.addEventListener('click', (e) => {
             div.className = "d-none";
         }
     });
-})
+});
+// Finalización de botones.
